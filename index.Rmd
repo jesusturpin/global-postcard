@@ -1,0 +1,18 @@
+---
+title: "Jesús Turpín"
+image: "images/jesus.jpg"
+links:
+  - label: LinkedIn
+    url: "https://linkedin.com/in/jesusturpinaroca"
+  - label: Twitter
+    url: "https://twitter.com/jturpinaroca"
+  - label: GitHub
+    url: "https://github.com/jesusturpin"
+  - label: Email
+    url: "mailto:jesusturpin@gmail.com"
+output:
+  postcards::jolla
+---
+ 
+Profesor especialista Inteligencia Artificial y Big Data. Analista de datos freelance.
+Ciclista, atleta, montañero, surfero y muchas cosas más, pero sobre todo Padre.
