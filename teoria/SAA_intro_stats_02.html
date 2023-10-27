@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fundamentos de estadística y probabilidad para Data Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="SAA_intro_stats_02_files/libs/clipboard/clipboard.min.js"></script>
+<script src="SAA_intro_stats_02_files/libs/quarto-html/quarto.js"></script>
+<script src="SAA_intro_stats_02_files/libs/quarto-html/popper.min.js"></script>
+<script src="SAA_intro_stats_02_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="SAA_intro_stats_02_files/libs/quarto-html/anchor.min.js"></script>
+<link href="SAA_intro_stats_02_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="SAA_intro_stats_02_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="SAA_intro_stats_02_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="SAA_intro_stats_02_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="SAA_intro_stats_02_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introducción-a-la-probabilidad-en-variable-discreta" id="toc-introducción-a-la-probabilidad-en-variable-discreta" class="nav-link active" data-scroll-target="#introducción-a-la-probabilidad-en-variable-discreta">Introducción a la probabilidad en variable discreta</a></li>
+  <li><a href="#muestreo-y-simulación-en-r" id="toc-muestreo-y-simulación-en-r" class="nav-link" data-scroll-target="#muestreo-y-simulación-en-r">Muestreo y simulación en R</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-de-muestreo-en-r" id="toc-ejemplo-de-muestreo-en-r" class="nav-link" data-scroll-target="#ejemplo-de-muestreo-en-r">Ejemplo de Muestreo en R:</a></li>
+  <li><a href="#semilla-y-reproductividad-de-las-secuencias-aleatorias" id="toc-semilla-y-reproductividad-de-las-secuencias-aleatorias" class="nav-link" data-scroll-target="#semilla-y-reproductividad-de-las-secuencias-aleatorias">Semilla y reproductividad de las secuencias aleatorias</a></li>
+  <li><a href="#propiedades-del-muestreo-estadístico" id="toc-propiedades-del-muestreo-estadístico" class="nav-link" data-scroll-target="#propiedades-del-muestreo-estadístico">Propiedades del muestreo estadístico</a></li>
+  <li><a href="#algunas-técnicas-de-muestreo" id="toc-algunas-técnicas-de-muestreo" class="nav-link" data-scroll-target="#algunas-técnicas-de-muestreo">Algunas técnicas de muestreo:</a></li>
+  <li><a href="#teorema-central-del-límite" id="toc-teorema-central-del-límite" class="nav-link" data-scroll-target="#teorema-central-del-límite">Teorema central del límite</a></li>
+  </ul></li>
+  <li><a href="#valor-esperado" id="toc-valor-esperado" class="nav-link" data-scroll-target="#valor-esperado">Valor esperado</a>
+  <ul class="collapse">
+  <li><a href="#esperanza-matemática-y-recompensa.-ejemplo" id="toc-esperanza-matemática-y-recompensa.-ejemplo" class="nav-link" data-scroll-target="#esperanza-matemática-y-recompensa.-ejemplo">Esperanza matemática y recompensa. Ejemplo</a></li>
+  </ul></li>
+  <li><a href="#simulación-monte-carlo" id="toc-simulación-monte-carlo" class="nav-link" data-scroll-target="#simulación-monte-carlo">Simulación Monte Carlo</a>
+  <ul class="collapse">
+  <li><a href="#el-problema-del-cumpleaños" id="toc-el-problema-del-cumpleaños" class="nav-link" data-scroll-target="#el-problema-del-cumpleaños">El problema del cumpleaños</a></li>
+  <li><a href="#simulación-de-monte-carlo-para-datos-categóricos" id="toc-simulación-de-monte-carlo-para-datos-categóricos" class="nav-link" data-scroll-target="#simulación-de-monte-carlo-para-datos-categóricos">Simulación de Monte Carlo para datos categóricos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fundamentos de estadística y probabilidad para Data Science</h1>
+<p class="subtitle lead">2. Variable Aleatoria, Probabilidad y teorema central del límite</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introducción-a-la-probabilidad-en-variable-discreta" class="level1">
+<h1>Introducción a la probabilidad en variable discreta</h1>
+<p><a href="https://www.apuntesmareaverde.org.es/grupos/mat/LOMLOE/Bachillerato/BS2%2008%20Estimacion.pdf" target="_blank">Libro marea verde 2º Bachillerato. Páginas 257-267</a></p>
+<p>La <strong>Probabilidad</strong> asociada a un suceso o evento aleatorio es un número entre 0 y 1 que mide el grado de certidumbre de que dicho suceso ocurra. Se expresa como <span class="math inline">\(P(Evento)={\frac{{ Eposibles }}{Etotales}}\)</span></p>
+<p>Una operación que puede producir algunos resultados bien definidos, se llama un <strong>Experimento</strong></p>
+<p>Ejemplo: Lanzar una moneda <span class="math inline">\(P(cara)={\frac{{ favorables }}{posibles} = \frac{1}{2}}\)</span></p>
+<p>Todos los resultados posibles de un experimento en su conjunto, forman el Espacio de la muestra O <strong>Espacio Muestral</strong>. En el ejemplo <strong>S = {Cara, Cruz}</strong></p>
+<p>Otro ejemplo: Lanzar un dado y obtener un tres. <span class="math inline">\(P(3)={\frac{{ 1 }}{6}}\)</span> Lanzar un dado y obtener un uno o un tres. <span class="math inline">\(P(1,3)={\frac{{ 1 }}{6}+\frac{{ 1 }}{6} = \frac{{ 1 }}{3}}\)</span> El espacio muestral es <strong>S = {1,2,3,4,5,6}</strong></p>
+<p>Cualquier resultado posible del Espacio Muestral S de un Experimento Aleatorio se llama <strong>Resultado</strong></p>
+<p>Cualquier subconjunto del Espacio Muestral S se llama <strong>Evento</strong> (denotado por E). Cuando se produce un resultado que pertenece al subconjunto E, se dice que ha ocurrido un suceso. Mientras que, cuando un resultado que no pertenece al subconjunto E tiene lugar, el Evento no ha ocurrido.</p>
+<p>Por <strong>Ensayo</strong>, entendemos la realización de un experimento aleatorio.</p>
+<p>La probabilidad de que un evento ocurra se denota con la letra <strong>p</strong>, mientras que la de que no ocurra con la letra <strong>q</strong>.</p>
+<p>Se cumple que p = 1-q La probabilidad de un suceso imposible es 0. La probabilidad de un suceso seguro es 1.</p>
+<p>La probabilidad de que ocurran dos sucesos A y B estadísticamente <strong>Independientes</strong> es la multiplicación de ambas probabilidades:</p>
+<p><span class="math inline">\(\displaystyle P(A \cap B) = P(A) \cdot P(B)\)</span></p>
+<p>La probabilidad de que ocurran dos sucesos estadísticamente <strong>dependientes</strong> es la multiplicación de la probabilidad del primero por la probabilidad del segundo condicionado al primero:</p>
+<p><span class="math inline">\({\displaystyle P(A \cap B) = P(A) \cdot P(B|A)}\)</span></p>
+<p>En el primer caso (sucesos independientes): Probabilidad de obtener dos veces rojo en la ruleta en un experimento:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p_2x_rojo <span class="ot">&lt;-</span> (<span class="dv">18</span><span class="sc">/</span><span class="dv">37</span>)<span class="sc">*</span>(<span class="dv">18</span><span class="sc">/</span><span class="dv">37</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p_2x_rojo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2366691</code></pre>
+</div>
+</div>
+<p>En el segundo caso (sucesos dependientes): Probabilidad de obtener dos ases en Texas Holdem</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p_AA <span class="ot">&lt;-</span> (<span class="dv">4</span><span class="sc">/</span><span class="dv">52</span>)<span class="sc">*</span>(<span class="dv">3</span><span class="sc">/</span><span class="dv">51</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p_AA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.004524887</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># En promedio, ocurre una vez de cada:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span>p_AA</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 221</code></pre>
+</div>
+</div>
+</section>
+<section id="muestreo-y-simulación-en-r" class="level1">
+<h1>Muestreo y simulación en R</h1>
+<section id="ejemplo-de-muestreo-en-r" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-de-muestreo-en-r">Ejemplo de Muestreo en R:</h2>
+<p>Dataset de ejemplo: lqsa</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leemos el fichero desde el repositorio de github:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>lqsa <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://raw.githubusercontent.com/jesusturpin/curintel2324/main/data/lqsa.csv"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lqsa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   30 obs. of  9 variables:
+ $ Nombre     : chr  "Ongombo" "Violeta" "Javi" "Estela Reynolds" ...
+ $ Motes      : chr  "Mondongo" "La cuchillos" "El pelocho" "La paca " ...
+ $ Poder      : int  9 3 15 2 3 2 17 3 5 15 ...
+ $ Convivencia: int  17 2 4 3 5 24 8 5 11 9 ...
+ $ Liante     : int  36 30 56 154 18 52 44 70 158 14 ...
+ $ Atractivo  : int  23 12 16 28 16 11 5 20 2 16 ...
+ $ Locura     : int  35 100 95 100 99 18 5 90 88 15 ...
+ $ Grupo_edad : chr  "Adulto" "Adulto" "Adulto" "Adulto" ...
+ $ Sexo       : chr  "Hombre" "Mujer" "Hombre" "Mujer" ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertimos en factor las últimas dos columnas:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>categ <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Grupo_edad"</span>, <span class="st">"Sexo"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Si queremos convertir todas las columnas chr: categ &lt;- sapply(lqsa, is.character)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>lqsa[categ] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(lqsa[categ], as.factor)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lqsa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Nombre             Motes               Poder         Convivencia    
+ Length:30          Length:30          Min.   : 1.000   Min.   : 2.000  
+ Class :character   Class :character   1st Qu.: 2.000   1st Qu.: 4.250  
+ Mode  :character   Mode  :character   Median : 2.500   Median : 8.000  
+                                       Mean   : 4.533   Mean   : 9.267  
+                                       3rd Qu.: 4.750   3rd Qu.:12.000  
+                                       Max.   :17.000   Max.   :25.000  
+     Liante      Atractivo         Locura        Grupo_edad     Sexo   
+ Min.   : 10   Min.   : 1.00   Min.   :  5.0   Adulto :24   Hombre:14  
+ 1st Qu.: 38   1st Qu.: 5.00   1st Qu.: 54.0   Anciano: 5   Mujer :14  
+ Median : 67   Median :11.50   Median : 84.0   Niño   : 1   Otro  : 2  
+ Mean   : 73   Mean   :13.07   Mean   : 70.1                           
+ 3rd Qu.: 98   3rd Qu.:19.00   3rd Qu.: 90.0                           
+ Max.   :158   Max.   :30.00   Max.   :100.0                           </code></pre>
+</div>
+</div>
+<p>En la estadística, se conoce como <strong>Muestreo</strong> a la técnica para la selección de una muestra a partir de una población estadística. Al elegir una muestra aleatoria se espera conseguir que sus propiedades sean extrapolables a la población.</p>
+<p>Utilizando sample(), extraemos la mitad de la baraja:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">nrow</span>(lqsa)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(lqsa), n, <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>lqsa[s,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Nombre                   Motes Poder Convivencia Liante Atractivo
+12            Lola            La Chihuahua     2           4     70        25
+21          Menchu             La Tanqueta     4           6     92         3
+16            Maxi              Mente Fría     3          12    158         2
+4  Estela Reynolds                La paca      2           3    154        28
+15             Leo                   Friki     1           5     86         4
+20           Coque              El modesto     1           4     50        15
+30         Teodoro                 Dj theo     1           4     56         6
+2          Violeta            La cuchillos     3           2     30        12
+23          Raquel               La Barbie     1          11     22        30
+6          Vicente         El hombre cojín     2          24     52        11
+17    Los Cuquitos Los hijos de los Cuquis     3          18     90         8
+28         Araceli      La Bollera Mística     2           8     36        15
+10           Berta                La beata    15           9     14        16
+8           Amador          Capitan Salami     3           5     70        20
+26           Maite                Maytechu     1           3     58        15
+   Locura Grupo_edad   Sexo
+12     90     Adulto  Mujer
+21     89    Anciano  Mujer
+16     36    Anciano Hombre
+4     100     Adulto  Mujer
+15     66     Adulto Hombre
+20     88     Adulto Hombre
+30     74     Adulto Hombre
+2     100     Adulto  Mujer
+23     20    Anciano  Mujer
+6      18    Anciano Hombre
+17     50       Niño   Otro
+28     76     Adulto  Mujer
+10     15     Adulto  Mujer
+8      90     Adulto Hombre
+26     70     Adulto  Mujer</code></pre>
+</div>
+</div>
+</section>
+<section id="semilla-y-reproductividad-de-las-secuencias-aleatorias" class="level2">
+<h2 class="anchored" data-anchor-id="semilla-y-reproductividad-de-las-secuencias-aleatorias">Semilla y reproductividad de las secuencias aleatorias</h2>
+<p>El código anterior, realiza un sorteo distinto en cada ejecución del código. Si queremos que nuestro experimento sea reproducible, debemos utilizar una misma semilla para generar una secuencia de números aleatorios:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4444</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(lqsa), n, <span class="at">replace=</span><span class="cn">FALSE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  8 12  6 18 25 28 14 24 17  5  3 15 22  2 29</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lqsa[s,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Nombre                   Motes Poder Convivencia Liante Atractivo
+8           Amador          Capitan Salami     3           5     70        20
+12            Lola            La Chihuahua     2           4     70        25
+6          Vicente         El hombre cojín     2          24     52        11
+18 Padre Alejandro            El sacerdote     5          25     10        25
+25           Bruno        El pianista loco     2           6     24        11
+28         Araceli      La Bollera Mística     2           8     36        15
+14           Clara          Sobrina Menchu     2          14    156         2
+24   Antonio Recio               El Rancio    17           4    100         7
+17    Los Cuquitos Los hijos de los Cuquis     3          18     90         8
+5         La chusa                La chusa     3           5     18        16
+3             Javi              El pelocho    15           4     56        16
+15             Leo                   Friki     1           5     86         4
+22            Alba                La trans     2          12     64         5
+2          Violeta            La cuchillos     3           2     30        12
+29        Patricio             El homicida     7          12    110         1
+   Locura Grupo_edad   Sexo
+8      90     Adulto Hombre
+12     90     Adulto  Mujer
+6      18    Anciano Hombre
+18     15     Adulto Hombre
+25     88     Adulto Hombre
+28     76     Adulto  Mujer
+14     80     Adulto  Mujer
+24     77     Adulto Hombre
+17     50       Niño   Otro
+5      99     Adulto  Mujer
+3      95     Adulto Hombre
+15     66     Adulto Hombre
+22     90     Adulto   Otro
+2     100     Adulto  Mujer
+29    100     Adulto Hombre</code></pre>
+</div>
+</div>
+<p>Podemos realizar la misma operación, utilizando el operador %&gt;% <em>pipe</em> y la función <em>sample_n()</em>, ambas en la libreria <em>dplyr</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4444</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">nrow</span>(lqsa)<span class="sc">/</span><span class="dv">2</span>) <span class="co"># 15</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>lqsa <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="at">size=</span>n, <span class="at">replace=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Nombre                   Motes Poder Convivencia Liante Atractivo
+1           Amador          Capitan Salami     3           5     70        20
+2             Lola            La Chihuahua     2           4     70        25
+3          Vicente         El hombre cojín     2          24     52        11
+4  Padre Alejandro            El sacerdote     5          25     10        25
+5            Bruno        El pianista loco     2           6     24        11
+6          Araceli      La Bollera Mística     2           8     36        15
+7            Clara          Sobrina Menchu     2          14    156         2
+8    Antonio Recio               El Rancio    17           4    100         7
+9     Los Cuquitos Los hijos de los Cuquis     3          18     90         8
+10        La chusa                La chusa     3           5     18        16
+11            Javi              El pelocho    15           4     56        16
+12             Leo                   Friki     1           5     86         4
+13            Alba                La trans     2          12     64         5
+14         Violeta            La cuchillos     3           2     30        12
+15        Patricio             El homicida     7          12    110         1
+   Locura Grupo_edad   Sexo
+1      90     Adulto Hombre
+2      90     Adulto  Mujer
+3      18    Anciano Hombre
+4      15     Adulto Hombre
+5      88     Adulto Hombre
+6      76     Adulto  Mujer
+7      80     Adulto  Mujer
+8      77     Adulto Hombre
+9      50       Niño   Otro
+10     99     Adulto  Mujer
+11     95     Adulto Hombre
+12     66     Adulto Hombre
+13     90     Adulto   Otro
+14    100     Adulto  Mujer
+15    100     Adulto Hombre</code></pre>
+</div>
+</div>
+<p>¿Qué es el atributo <em>replace</em> (sustitución o reemplazo)? Cuando hacemos un muestreo sin sustitución (replace = FALSE), el elemento tomado de los datos, no puede volver a salir, por ejemplo si nos reparten 2 cartas, partiendo de una baraja de 52 cartas, no nos pueden dar dos cartas iguales. Los <strong>sucesos</strong> son <strong>dependientes</strong>.</p>
+<p>Si el muestreo es con reemplazo, como tirar un dado o una moneda, en cada extracción individual, todas las opciones están disponibles. Se dice que todos los <strong>sucesos</strong> son <strong>independientes</strong>.</p>
+<p>Tirar un dado n veces:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,n, <span class="at">replace=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 4 2 6 6 3 1 4 2 1 6 3 1 4 2 1</code></pre>
+</div>
+</div>
+<p>Ruleta rusa: ¿Cón o sin reemplazo?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">1</span>, <span class="at">replace=</span>?)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¿Tiene sentido ejecutar este código? ¿Qué ocurriría?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">7</span>, <span class="at">replace=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="propiedades-del-muestreo-estadístico" class="level2">
+<h2 class="anchored" data-anchor-id="propiedades-del-muestreo-estadístico">Propiedades del muestreo estadístico</h2>
+<ul>
+<li><p><strong>Aleatoriedad</strong>: Los elementos de la muestra deben ser seleccionados al azar, garantizando que cada elemento en la población tenga una oportunidad conocida y no nula de ser seleccionado.</p></li>
+<li><p><strong>Independencia</strong>: Las observaciones en la muestra deben ser independientes entre sí, lo que significa que la selección de un individuo no afecta la selección de otro.</p></li>
+<li><p><strong>Tamaño de la muestra</strong>: El tamaño de la muestra (n) debe ser adecuado para el estudio. Muestras más grandes tienden a producir estimaciones más precisas.</p></li>
+<li><p><strong>Variabilidad</strong>: Las muestras diferentes sacadas de la misma población pueden producir diferentes estadísticas. Esta variabilidad se refleja en el error estándar de la estadística.</p></li>
+<li><p><strong>Sesgo o Bias</strong>: Si el método de muestreo es sesgado, entonces las inferencias hechas a partir de la muestra pueden no ser representativas de la población.</p></li>
+<li><p><strong>Eficiencia</strong>: Se refiere a la capacidad del método de muestreo para obtener estimaciones precisas usando el mínimo tamaño de muestra posible.</p></li>
+</ul>
+</section>
+<section id="algunas-técnicas-de-muestreo" class="level2">
+<h2 class="anchored" data-anchor-id="algunas-técnicas-de-muestreo">Algunas técnicas de muestreo:</h2>
+<ul>
+<li><p><strong>Muestreo Aleatorio Simple</strong>: Cada individuo de la población tiene la misma probabilidad de ser seleccionado. Es la técnica de muestreo más básica y se realiza sin reemplazo.</p></li>
+<li><p><strong>Muestreo Sistemático</strong>: Se elige un punto de inicio al azar y luego se seleccionan elementos en intervalos fijos. Por ejemplo, en una lista de 1000 individuos, podríamos elegir cada 10º individuo para una muestra de tamaño 100.</p></li>
+<li><p><strong>Muestreo Estratificado</strong>: La población se divide en subgrupos homogéneos llamados estratos. Se toma una muestra aleatoria simple de cada estrato. Es útil cuando se sabe que diferentes subgrupos de una población pueden variar en relación a la característica de interés.</p></li>
+<li><p><strong>Muestreo Intencional o de Juicio</strong>: Se seleccionan específicamente ciertos individuos que cumplen con características deseadas o porque el investigador cree que son representativos. No es aleatorio y puede estar sujeto a sesgos.</p></li>
+<li><p><strong>Muestreo por Etapas Múltiples</strong>: Es una combinación de dos o más técnicas de muestreo. Por ejemplo, primero se podría hacer un muestreo por conglomerados (primera etapa) y luego dentro de cada conglomerado seleccionado, hacer un muestreo aleatorio simple (segunda etapa).</p></li>
+</ul>
+<p>La elección del método de muestreo depende de la naturaleza de la población, los objetivos del estudio y los recursos disponibles. Es crucial elegir el método adecuado para garantizar que los resultados del estudio sean válidos y representativos de la población de interés.</p>
+</section>
+<section id="teorema-central-del-límite" class="level2">
+<h2 class="anchored" data-anchor-id="teorema-central-del-límite">Teorema central del límite</h2>
+<p>Para una población con cualquier forma de distribución (aunque no sea normal) con una media <span class="math inline">\(\mu\)</span> y una varianza <span class="math inline">\(\sigma^2\)</span> finitas, la distribución de la media de la muestra se aproximará a una distribución normal o gaussiana a medida que el tamaño de la muestra (n) aumente.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/IllustrationCentralTheorem.png/400px-IllustrationCentralTheorem.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">wikipedia</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="valor-esperado" class="level1">
+<h1>Valor esperado</h1>
+<p>También llamada <strong>esperanza matemática</strong> Se define como la media de la distribución de probabilidad <span class="math inline">\(E[X] = \sum_{i=1}^nxi*pi\)</span></p>
+<p><span class="math inline">\({\displaystyle\begin{aligned}\operatorname{E}(X) &amp;= 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + 4 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} + 6 \cdot \frac{1}{6}\\&amp;= \frac{1 + 2 + 3 + 4 + 5 + 6}{6} = \frac{21}{6} = 3.5\end{aligned}}\)</span></p>
+<p>Vemos como calcularlo en R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dado <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dado</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  n
+1 1
+2 2
+3 3
+4 4
+5 5
+6 6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dado<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.5</code></pre>
+</div>
+</div>
+<p>Si lanzamos el dado 50 veces:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dado_x50 <span class="ot">&lt;-</span> dado <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">50</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dado_x50<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.64</code></pre>
+</div>
+</div>
+<p>Si dibujamos el histograma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dado_x50, <span class="fu">aes</span>(n)) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">6</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Experimento: 50 tiradas de un dado"</span>, <span class="at">x =</span> <span class="st">"Número"</span>, <span class="at">y =</span> <span class="st">"Frecuencia"</span>)<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">50</span><span class="sc">/</span><span class="dv">6</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Mientras que la distribución teórica es:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pdado <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">numero =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">prob =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>,<span class="dv">6</span>))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pdado, <span class="fu">aes</span>(<span class="at">x=</span>numero,<span class="at">y=</span>prob)) <span class="sc">+</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">6</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A medida que la muestra sea mayor, el valor del muestreo se aproxima al valor teórico:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a> dado <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">3000</span>, <span class="at">replace=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n))<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">6</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Experimento: 3000 tiradas de un dado"</span>, <span class="at">x =</span> <span class="st">"Número"</span>, <span class="at">y =</span> <span class="st">"Frecuencia"</span>)<span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">3000</span><span class="sc">/</span><span class="dv">6</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">size =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a> dado <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">6000</span>, <span class="at">replace=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">media =</span> <span class="fu">mean</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     media
+1 3.478833</code></pre>
+</div>
+</div>
+<section id="esperanza-matemática-y-recompensa.-ejemplo" class="level2">
+<h2 class="anchored" data-anchor-id="esperanza-matemática-y-recompensa.-ejemplo">Esperanza matemática y recompensa. Ejemplo</h2>
+<p>El juego de la ruleta. Acertar a un número de la ruleta del 0 al 36, tiene como precio una recompensa de 36x lo apostado, es decir, un beneficio neto de 35 veces la cantidad apostada mas el reintegro.</p>
+<p>Suponiendo que se apueste 1 € en cada tirada. Supongamos que nuestro número es el 7, ganaríamos 35 € cada vez que salga, y perderíamos 1 € si no sale: <span class="math inline">\(E[X] = \sum_{i=1}^nxi*pi = (-1)*(1/37) + (-1)*(1/37) + ... + 35*(1/37) = -36/37 + 35/37 = -1/37\)</span></p>
+<p>Si nos ponemos del lado del casino, ganamos 1 € cada vez que no sale el 7 y perdemos 35, cada vez que salga:</p>
+<p><span class="math inline">\(E[X] = \sum_{i=1}^nxi*pi = (1)*(1/37) + (1)*(1/37) + ... + (-35)*(1/37) = 36/37 - 35/37 = 1/37\)</span></p>
+<p>Como vemos, las matemáticas están de su parte, por lo que en teoría, el casino no necesita hacer trampas.</p>
+<p>Veamos el resultado, simulando varias tiradas: Cuando la muestra es pequeña:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ruleta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">36</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>ruleta <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">100</span>, <span class="at">replace=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">jugador =</span> <span class="fu">case_when</span>(n <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="dv">35</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">casino =</span> <span class="fu">case_when</span>(n <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="sc">-</span><span class="dv">35</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">gan_jug =</span> <span class="fu">sum</span>(jugador), <span class="at">gan_casino =</span> <span class="fu">sum</span>(casino), <span class="at">ev_jug =</span> <span class="fu">mean</span>(jugador), <span class="at">ev_cas =</span> <span class="fu">mean</span>(casino))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gan_jug gan_casino ev_jug ev_cas
+1     -64         64  -0.64   0.64</code></pre>
+</div>
+</div>
+<p>Si la muestra es muy grande (5M), la media tiende a ese -1/37 para el jugador y 1/37 para el casino:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>ruleta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">36</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>ruleta <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">5000000</span>, <span class="at">replace=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">jugador =</span> <span class="fu">case_when</span>(n <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="dv">35</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">casino =</span> <span class="fu">case_when</span>(n <span class="sc">==</span> <span class="dv">7</span> <span class="sc">~</span> <span class="sc">-</span><span class="dv">35</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">gan_jug =</span> <span class="fu">sum</span>(jugador), <span class="at">gan_casino =</span> <span class="fu">sum</span>(casino), <span class="at">ev_jug =</span> <span class="fu">mean</span>(jugador), <span class="at">ev_cas =</span> <span class="fu">mean</span>(casino), <span class="at">varianza =</span> <span class="fu">var</span>(jugador))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gan_jug gan_casino     ev_jug    ev_cas varianza
+1 -156092     156092 -0.0312184 0.0312184 33.93761</code></pre>
+</div>
+</div>
+<p>Para reducir la varianza, vamos a repetir el experimento apostando a impar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ruleta <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">36</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>ruleta <span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_n</span>(<span class="dv">5000000</span>, <span class="at">replace=</span><span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">jugador =</span> <span class="fu">case_when</span>((n <span class="sc">%%</span> <span class="dv">2</span>) <span class="sc">==</span> <span class="dv">1</span>  <span class="sc">~</span> <span class="dv">1</span>, <span class="cn">TRUE</span> <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">casino =</span> <span class="sc">-</span>jugador) <span class="sc">%&gt;%</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">gan_jug =</span> <span class="fu">sum</span>(jugador), <span class="at">gan_casino =</span> <span class="fu">sum</span>(casino), <span class="at">ev_jug =</span> <span class="fu">mean</span>(jugador), <span class="at">ev_cas =</span> <span class="fu">mean</span>(casino), <span class="at">varianza =</span> <span class="fu">var</span>(jugador))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  gan_jug gan_casino     ev_jug    ev_cas  varianza
+1 -132634     132634 -0.0265268 0.0265268 0.9992965</code></pre>
+</div>
+</div>
+<p>La falacia del jugador: Si aparecen 50 rojos consecutivos en la ruleta, ¿Qué probabilidad hay de que el siguiente número sea otra vez rojo?</p>
+</section>
+</section>
+<section id="simulación-monte-carlo" class="level1">
+<h1>Simulación Monte Carlo</h1>
+<p>Cuando resolvler un problema matemático se hace muy complejo computacionalmente, una forma de hacerlo es mediante simulación. Veamos un ejemplo clásico:</p>
+<section id="el-problema-del-cumpleaños" class="level2">
+<h2 class="anchored" data-anchor-id="el-problema-del-cumpleaños">El problema del cumpleaños</h2>
+<p>Supongamos que en una clase hay 50 personas. Asumimos que han sido aleatoriamente seleccionadas. ¿Cuál es la probabilidad de que al menos dos personas cumplan años el mismo día?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>dias <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La función duplicated(), nos permite averiguar si en un vector hay elementos duplicados</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">duplicated</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">duplicated</span>(dias)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
+[13] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE
+[25] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE
+[37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+[49] FALSE FALSE</code></pre>
+</div>
+</div>
+<p>Nos interesa saber si al menos uno de ellos lo está, para ello, la función any() evalua si hay algún elemento a TRUE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">5</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(dias))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>La función replicate(), nos permite repetir un experimiento B veces:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>mismo_dia_cumple <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  dias <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">any</span>(<span class="fu">duplicated</span>(dias))</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">mismo_dia_cumple</span>(n))</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.975</code></pre>
+</div>
+</div>
+<p>Generalizamos la función:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>calcular_prob_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">B=</span><span class="dv">10000</span>) {</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  resultados <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">mismo_dia_cumple</span>(n))</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(resultados)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Usamos sapply para calcular las probabilidades con distinto número de alumnos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">60</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>prob_sim <span class="ot">&lt;-</span> <span class="fu">sapply</span>(n, calcular_prob_sim)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(n, prob_sim), <span class="fu">aes</span>(n, prob_sim))<span class="sc">+</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Para calcular la probabilidad teórica:</p>
+<ul>
+<li>Calcular la probabilidad p de que ninguno de ellos cumpla el mismo día:</li>
+</ul>
+<p><span class="math inline">\(p = \frac{365}{365} \cdot \frac{364}{365} \cdot \frac{363}{365} \cdot \ldots \cdot \frac{365 - n + 1}{365}\)</span></p>
+<ul>
+<li>En notación factorial</li>
+</ul>
+<p><span class="math inline">\(p = \begin{cases}\frac{365!}{365^n \cdot (365 - n)!} &amp; \text{si } 1 \leq n \leq 365 \\0 &amp; \text{si } n &gt; 365\end{cases}\)</span></p>
+<ul>
+<li>1-p es la probabilidad del suceso contrario, es decir de que al menos 2 personas cumplan años el mismo día</li>
+</ul>
+<p><span class="math inline">\(1 - p = \begin{cases} 1 - \frac{365!}{365^n \cdot (365 - n)!} &amp; \text{si } 1 \leq n \leq 365 \\ 1 &amp; \text{si } n &gt; 365\end{cases}\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>calcular_prob_exac <span class="ot">&lt;-</span> <span class="cf">function</span>(n){</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  prob_unique <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">365</span>,<span class="dv">365</span><span class="sc">-</span>n<span class="sc">+</span><span class="dv">1</span>)<span class="sc">/</span><span class="dv">365</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">prod</span>(prob_unique)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>prob_exac <span class="ot">&lt;-</span> <span class="fu">sapply</span>(n, calcular_prob_exac)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(n, prob_sim, prob_exac), <span class="fu">aes</span>(n, prob_sim))<span class="sc">+</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(n, prob_exac), <span class="at">color=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Si repetimos el experimiento con 500 simulaciones:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Para averiguar la precisión del cálculo, podemos ver la estabilidad del cálculo según el número de simulaciones. Seleccionando diferentes valores de B de forma logarítmica, para el problema del cumpleaños en un grupo de 25 personas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="at">len =</span> <span class="dv">100</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>calcular_prob_sim <span class="ot">&lt;-</span> <span class="cf">function</span>(B, <span class="at">n=</span><span class="dv">25</span>){</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  dias <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, <span class="fu">mismo_dia_cumple</span>(n))</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(dias)</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">sapply</span>(B, calcular_prob_sim)</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(probs, B)</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(B, probs)) <span class="sc">+</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="fu">log10</span>(B), probs)) <span class="sc">+</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_02_files/figure-html/unnamed-chunk-30-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="simulación-de-monte-carlo-para-datos-categóricos" class="level2">
+<h2 class="anchored" data-anchor-id="simulación-de-monte-carlo-para-datos-categóricos">Simulación de Monte Carlo para datos categóricos</h2>
+<p>Supongamos que se fabrican tallas de una prenda en la siguiente proporción de tallas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>tallas <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"XS"</span>, <span class="st">"S"</span>, <span class="st">"M"</span>, <span class="st">"L"</span>, <span class="st">"XL"</span>, <span class="st">"XXL"</span>), <span class="at">times=</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>))</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>tallas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "XS"  "XS"  "S"   "S"   "S"   "M"   "M"   "M"   "M"   "L"   "L"   "L"  
+[13] "L"   "XL"  "XL"  "XL"  "XXL" "XXL"</code></pre>
+</div>
+</div>
+<p>Si extraemos una muestra al azar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(tallas, <span class="dv">1</span>) <span class="co"># Al sacar solamente una, no importa si es con o sin reemplazo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "L"</code></pre>
+</div>
+</div>
+<p>Definimos el tamaño de la muestra y el número de experimentos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>tam_lote <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>num_distribuidoras <span class="ot">&lt;-</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La máquina que fabrica las prendas, genera lotes de tallas aleatoriamente, según la distribución dada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>lote <span class="ot">&lt;-</span> <span class="fu">sample</span>(tallas, tam_lote, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>lote</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "M"   "S"   "L"   "XXL" "M"  </code></pre>
+</div>
+</div>
+<p>Reparte los lotes de igual cantidad aleatoriamente empaquetados:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>lotes_distribuidos <span class="ot">&lt;-</span> <span class="fu">replicate</span>(num_distribuidoras, <span class="fu">sample</span>(tallas,tam_lote, <span class="at">replace=</span><span class="cn">TRUE</span>))</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>lotes_distribuidos</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]  [,5] [,6]  [,7] [,8]  [,9] [,10]
+[1,] "L"  "XS" "XL" "XL"  "XL" "L"   "M"  "XXL" "S"  "M"  
+[2,] "M"  "M"  "M"  "L"   "L"  "XS"  "M"  "L"   "L"  "XS" 
+[3,] "S"  "XL" "S"  "XXL" "M"  "XXL" "M"  "S"   "XL" "L"  
+[4,] "S"  "XS" "M"  "XL"  "M"  "M"   "XL" "L"   "XS" "L"  
+[5,] "L"  "S"  "M"  "S"   "M"  "XL"  "M"  "M"   "M"  "XL" </code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

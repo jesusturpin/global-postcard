@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jesús Turpín">
+
+<title>Fundamentos de estadística y probabilidad para Data Science</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="SAA_intro_stats_01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="SAA_intro_stats_01_files/libs/quarto-html/quarto.js"></script>
+<script src="SAA_intro_stats_01_files/libs/quarto-html/popper.min.js"></script>
+<script src="SAA_intro_stats_01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="SAA_intro_stats_01_files/libs/quarto-html/anchor.min.js"></script>
+<link href="SAA_intro_stats_01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="SAA_intro_stats_01_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="SAA_intro_stats_01_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="SAA_intro_stats_01_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="SAA_intro_stats_01_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="SAA_intro_stats_01_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="SAA_intro_stats_01_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#qué-es-la-estadística" id="toc-qué-es-la-estadística" class="nav-link active" data-scroll-target="#qué-es-la-estadística">¿Qué es la estadística?</a></li>
+  <li><a href="#tipos-de-estadística" id="toc-tipos-de-estadística" class="nav-link" data-scroll-target="#tipos-de-estadística">Tipos de estadística</a>
+  <ul class="collapse">
+  <li><a href="#descriptiva" id="toc-descriptiva" class="nav-link" data-scroll-target="#descriptiva">Descriptiva</a></li>
+  <li><a href="#inferencial" id="toc-inferencial" class="nav-link" data-scroll-target="#inferencial">Inferencial</a></li>
+  </ul></li>
+  <li><a href="#tipos-de-datos" id="toc-tipos-de-datos" class="nav-link" data-scroll-target="#tipos-de-datos">Tipos de datos</a>
+  <ul class="collapse">
+  <li><a href="#numéricos-cuantitativos" id="toc-numéricos-cuantitativos" class="nav-link" data-scroll-target="#numéricos-cuantitativos">Numéricos (cuantitativos)</a>
+  <ul class="collapse">
+  <li><a href="#contínuos" id="toc-contínuos" class="nav-link" data-scroll-target="#contínuos">Contínuos</a></li>
+  <li><a href="#discretos" id="toc-discretos" class="nav-link" data-scroll-target="#discretos">Discretos</a></li>
+  </ul></li>
+  <li><a href="#categóricos-cualitativos" id="toc-categóricos-cualitativos" class="nav-link" data-scroll-target="#categóricos-cualitativos">Categóricos (cualitativos)</a>
+  <ul class="collapse">
+  <li><a href="#nominales-sin-orden" id="toc-nominales-sin-orden" class="nav-link" data-scroll-target="#nominales-sin-orden">Nominales (sin orden)</a></li>
+  <li><a href="#ordinales" id="toc-ordinales" class="nav-link" data-scroll-target="#ordinales">Ordinales</a></li>
+  </ul></li>
+  <li><a href="#la-importancia-de-los-tipos-de-datos" id="toc-la-importancia-de-los-tipos-de-datos" class="nav-link" data-scroll-target="#la-importancia-de-los-tipos-de-datos">La importancia de los tipos de datos</a></li>
+  </ul></li>
+  <li><a href="#medidas-estadísticas-de-centralidad" id="toc-medidas-estadísticas-de-centralidad" class="nav-link" data-scroll-target="#medidas-estadísticas-de-centralidad">Medidas estadísticas de centralidad</a>
+  <ul class="collapse">
+  <li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma">Histograma</a></li>
+  <li><a href="#medidas-de-centralidad-media-y-mediana" id="toc-medidas-de-centralidad-media-y-mediana" class="nav-link" data-scroll-target="#medidas-de-centralidad-media-y-mediana">Medidas de centralidad: media y mediana</a>
+  <ul class="collapse">
+  <li><a href="#la-media-y-la-mediana-en-r" id="toc-la-media-y-la-mediana-en-r" class="nav-link" data-scroll-target="#la-media-y-la-mediana-en-r">La media y la mediana en R</a></li>
+  </ul></li>
+  <li><a href="#medidas-de-centralidad-la-moda" id="toc-medidas-de-centralidad-la-moda" class="nav-link" data-scroll-target="#medidas-de-centralidad-la-moda">Medidas de centralidad: La moda</a>
+  <ul class="collapse">
+  <li><a href="#la-moda-en-r" id="toc-la-moda-en-r" class="nav-link" data-scroll-target="#la-moda-en-r">La moda en R</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#medidas-de-dispersión" id="toc-medidas-de-dispersión" class="nav-link" data-scroll-target="#medidas-de-dispersión">Medidas de dispersión</a>
+  <ul class="collapse">
+  <li><a href="#la-varianza" id="toc-la-varianza" class="nav-link" data-scroll-target="#la-varianza">La varianza</a>
+  <ul class="collapse">
+  <li><a href="#la-varianza-poblacional" id="toc-la-varianza-poblacional" class="nav-link" data-scroll-target="#la-varianza-poblacional">La varianza poblacional</a></li>
+  <li><a href="#la-varianza-muestral" id="toc-la-varianza-muestral" class="nav-link" data-scroll-target="#la-varianza-muestral">La varianza muestral</a></li>
+  </ul></li>
+  <li><a href="#la-desviación-estándar-o-desviación-típica" id="toc-la-desviación-estándar-o-desviación-típica" class="nav-link" data-scroll-target="#la-desviación-estándar-o-desviación-típica">La desviación estándar o desviación típica</a></li>
+  <li><a href="#rango" id="toc-rango" class="nav-link" data-scroll-target="#rango">Rango</a></li>
+  <li><a href="#eam.-error-absoluto-medio-mae-en-inglés" id="toc-eam.-error-absoluto-medio-mae-en-inglés" class="nav-link" data-scroll-target="#eam.-error-absoluto-medio-mae-en-inglés">EAM. Error absoluto medio (MAE en inglés)</a></li>
+  <li><a href="#cuantiles" id="toc-cuantiles" class="nav-link" data-scroll-target="#cuantiles">Cuantiles</a>
+  <ul class="collapse">
+  <li><a href="#cuantiles-en-una-distribución-de-probabilidad" id="toc-cuantiles-en-una-distribución-de-probabilidad" class="nav-link" data-scroll-target="#cuantiles-en-una-distribución-de-probabilidad">Cuantiles en una distribución de probabilidad</a></li>
+  <li><a href="#cuantiles-vs-cuartiles" id="toc-cuantiles-vs-cuartiles" class="nav-link" data-scroll-target="#cuantiles-vs-cuartiles">Cuantiles vs cuartiles</a></li>
+  <li><a href="#cuartiles-y-deciles" id="toc-cuartiles-y-deciles" class="nav-link" data-scroll-target="#cuartiles-y-deciles">Cuartiles y deciles</a></li>
+  <li><a href="#percentiles" id="toc-percentiles" class="nav-link" data-scroll-target="#percentiles">Percentiles</a></li>
+  <li><a href="#cálculo-vs-estimación" id="toc-cálculo-vs-estimación" class="nav-link" data-scroll-target="#cálculo-vs-estimación">Cálculo vs estimación</a></li>
+  </ul></li>
+  <li><a href="#rango-intercuartil-iqr" id="toc-rango-intercuartil-iqr" class="nav-link" data-scroll-target="#rango-intercuartil-iqr">Rango intercuartil (IQR)</a></li>
+  <li><a href="#valores-atípicos-outliers" id="toc-valores-atípicos-outliers" class="nav-link" data-scroll-target="#valores-atípicos-outliers">Valores atípicos (Outliers)</a></li>
+  <li><a href="#diagramas-de-caja-y-bigote-boxplot" id="toc-diagramas-de-caja-y-bigote-boxplot" class="nav-link" data-scroll-target="#diagramas-de-caja-y-bigote-boxplot">Diagramas de caja y bigote (boxplot)</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fundamentos de estadística y probabilidad para Data Science</h1>
+<p class="subtitle lead">1. Resumen Estadístico</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesús Turpín </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="qué-es-la-estadística" class="level1">
+<h1>¿Qué es la estadística?</h1>
+<ul>
+<li><p>Rama de las matemáticas</p></li>
+<li><p>Enfocada en la recogida y análisis de datos</p></li>
+<li><p>Un informe estadístico nos permite obtener un resumen de la información que contienen los datos</p></li>
+</ul>
+<section id="qué-nos-permite-la-estadística-en-la-práctica" class="level4">
+<h4 class="anchored" data-anchor-id="qué-nos-permite-la-estadística-en-la-práctica">¿Qué nos permite la estadística en la práctica?</h4>
+<p>Proporciona una serie de herramientas necesarias para explorar, resumir y poder así explotar grandes conjuntos de datos.</p>
+<ul>
+<li><p>Conocer las probabilidades de que alguien compre un producto.</p></li>
+<li><p>Averiguar si es más probable que compren usando un método de pago u otro.</p></li>
+<li><p>Poder estimar cuántos huéspedes tendrá un hotel y qué decisiones en cuanto a precio y/o servicios es la óptima teniendo en cuenta lo anterior.</p></li>
+<li><p>Saber cuántas tallas de pantalón distintas hay que fabricar para el 95 % de la población, y cuántas unidades de cada talla deben producirse.</p></li>
+<li><p>A/B test: saber qué anuncio publicitario es más persuasivo para un producto concreto.</p></li>
+</ul>
+</section>
+<section id="hasta-dónde-no-podemos-llegar-con-la-estadística-en-la-práctica" class="level4">
+<h4 class="anchored" data-anchor-id="hasta-dónde-no-podemos-llegar-con-la-estadística-en-la-práctica">¿Hasta dónde no podemos llegar con la estadística en la práctica?</h4>
+<ul>
+<li><p>Saber la razón de la enorme popularidad de Juego de Tronos.</p></li>
+<li><p>Sabemos que la violencia ayuda pero ¿es la verdadera razón del éxito de la serie?</p></li>
+<li><p>Podríamos preguntar a todos los espectadores, pero pueden mentir o que su respuesta no revele la verdadera razón. <strong>Fiabilidad</strong>. No podemos afirmar que haya una relación directa entre el nivel de violencia y la audiencia</p></li>
+</ul>
+</section>
+</section>
+<section id="tipos-de-estadística" class="level1">
+<h1>Tipos de estadística</h1>
+<section id="descriptiva" class="level2">
+<h2 class="anchored" data-anchor-id="descriptiva">Descriptiva</h2>
+<p>Describe y resume todos los datos disponibles. Ejemplo:</p>
+<ul>
+<li><a href="https://docs.google.com/forms/d/1NSXSLW4C7DNWWOnzqG2Z2ATLlS7n3p4bkdVnlxmQvu8/edit?pli=1#responses" target="_blank">Ejemplo Google Curso IA/BD (Privado)</a></li>
+</ul>
+</section>
+<section id="inferencial" class="level2">
+<h2 class="anchored" data-anchor-id="inferencial">Inferencial</h2>
+<p>En una <strong>muestra</strong> grande, podemos hacer <strong>inferencias</strong> sobre la <strong>población</strong> total a partir de una muestra significativa.</p>
+<ul>
+<li>Ejemplos: Audímetros TV, estudios científicos basados en encuestas</li>
+</ul>
+</section>
+</section>
+<section id="tipos-de-datos" class="level1">
+<h1>Tipos de datos</h1>
+<section id="numéricos-cuantitativos" class="level2">
+<h2 class="anchored" data-anchor-id="numéricos-cuantitativos">Numéricos (cuantitativos)</h2>
+<section id="contínuos" class="level3">
+<h3 class="anchored" data-anchor-id="contínuos">Contínuos</h3>
+<ul>
+<li>Medidas (tiempo, velocidad, longitud, …)</li>
+</ul>
+</section>
+<section id="discretos" class="level3">
+<h3 class="anchored" data-anchor-id="discretos">Discretos</h3>
+<ul>
+<li>Cantidad o recuentos (número de pedidos, número de aciertos, …)</li>
+</ul>
+<p>Los datos numéricos pueden ser categorizados</p>
+</section>
+</section>
+<section id="categóricos-cualitativos" class="level2">
+<h2 class="anchored" data-anchor-id="categóricos-cualitativos">Categóricos (cualitativos)</h2>
+<section id="nominales-sin-orden" class="level3">
+<h3 class="anchored" data-anchor-id="nominales-sin-orden">Nominales (sin orden)</h3>
+<ul>
+<li>Estado civil</li>
+<li>País</li>
+<li>…</li>
+</ul>
+</section>
+<section id="ordinales" class="level3">
+<h3 class="anchored" data-anchor-id="ordinales">Ordinales</h3>
+<ul>
+<li>Respuesta a una encuesta gradual (muy en desacuerdo, en desacuerdo, de acuerdo, muy de acuerdo, …)</li>
+</ul>
+<p>Los datos categóricos se pueden representar como números o como texto</p>
+</section>
+</section>
+<section id="la-importancia-de-los-tipos-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="la-importancia-de-los-tipos-de-datos">La importancia de los tipos de datos</h2>
+<p>Ser capaz de identificar el tipo de dato, nos permitirá saber qué tipo de gráficas o resúmenes representa mejor la información</p>
+<p>Ejemplo: Resumen o estadístico:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Autonomía media del conjunto mtcars</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(mtcars<span class="sc">$</span>mpg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.09062</code></pre>
+</div>
+</div>
+<p>Ejemplo: Representaciones gráficas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(mpg, wt))<span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ejemplo: Tabla</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.3     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ lubridate 1.9.3     ✔ tibble    3.2.1
+✔ purrr     1.0.2     ✔ tidyr     1.3.0
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter()     masks stats::filter()
+✖ dplyr::group_rows() masks kableExtra::group_rows()
+✖ dplyr::lag()        masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">mpg</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">cyl</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">disp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">hp</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">drat</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">wt</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">qsec</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">vs</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">am</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">gear</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mazda RX4</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.620</td>
+<td style="text-align: right;">16.46</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mazda RX4 Wag</td>
+<td style="text-align: right;">21.0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">2.875</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Datsun 710</td>
+<td style="text-align: right;">22.8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">108</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">2.320</td>
+<td style="text-align: right;">18.61</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Hornet 4 Drive</td>
+<td style="text-align: right;">21.4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">258</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">3.215</td>
+<td style="text-align: right;">19.44</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<section id="identifica-el-tipo-de-estadística-y-el-tipo-de-datos" class="level4">
+<h4 class="anchored" data-anchor-id="identifica-el-tipo-de-estadística-y-el-tipo-de-datos">Identifica el tipo de estadística y el tipo de datos</h4>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1HCB8hVNrzooFli0BE_Dng2ag790xYAga/edit?usp=sharing&amp;ouid=106341026533127297276&amp;rtpof=true&amp;sd=true" target="_blank">Power Point ejercicios de estadística y tipos de datos</a></li>
+</ul>
+</section>
+<section id="identifica-el-tipo-de-dato" class="level4">
+<h4 class="anchored" data-anchor-id="identifica-el-tipo-de-dato">Identifica el tipo de dato</h4>
+<p>Página 153 (Libro matemáticas mareaverde)</p>
+<ul>
+<li><a href="http://apuntesmareaverde.org.es/grupos/mat/PERSONAS%20ADULTAS/Adultas%20Valencia%20II.pdf" target="_blank">Libro marea verde (adultos)</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="medidas-estadísticas-de-centralidad" class="level1">
+<h1>Medidas estadísticas de centralidad</h1>
+<section id="dataset-de-ejemplo-mammal-sleep-data-ggplot2" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-de-ejemplo-mammal-sleep-data-ggplot2">Dataset de ejemplo: “Mammal sleep data” (ggplot2)</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>msleep</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 83 × 11
+   name   genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+ 1 Cheet… Acin… carni Carn… lc                  12.1      NA        NA      11.9
+ 2 Owl m… Aotus omni  Prim… &lt;NA&gt;                17         1.8      NA       7  
+ 3 Mount… Aplo… herbi Rode… nt                  14.4       2.4      NA       9.6
+ 4 Great… Blar… omni  Sori… lc                  14.9       2.3       0.133   9.1
+ 5 Cow    Bos   herbi Arti… domesticated         4         0.7       0.667  20  
+ 6 Three… Brad… herbi Pilo… &lt;NA&gt;                14.4       2.2       0.767   9.6
+ 7 North… Call… carni Carn… vu                   8.7       1.4       0.383  15.3
+ 8 Vespe… Calo… &lt;NA&gt;  Rode… &lt;NA&gt;                 7        NA        NA      17  
+ 9 Dog    Canis carni Carn… domesticated        10.1       2.9       0.333  13.9
+10 Roe d… Capr… herbi Arti… lc                   3        NA        NA      21  
+# ℹ 73 more rows
+# ℹ 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Estructura del data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(msleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tibble [83 × 11] (S3: tbl_df/tbl/data.frame)
+ $ name        : chr [1:83] "Cheetah" "Owl monkey" "Mountain beaver" "Greater short-tailed shrew" ...
+ $ genus       : chr [1:83] "Acinonyx" "Aotus" "Aplodontia" "Blarina" ...
+ $ vore        : chr [1:83] "carni" "omni" "herbi" "omni" ...
+ $ order       : chr [1:83] "Carnivora" "Primates" "Rodentia" "Soricomorpha" ...
+ $ conservation: chr [1:83] "lc" NA "nt" "lc" ...
+ $ sleep_total : num [1:83] 12.1 17 14.4 14.9 4 14.4 8.7 7 10.1 3 ...
+ $ sleep_rem   : num [1:83] NA 1.8 2.4 2.3 0.7 2.2 1.4 NA 2.9 NA ...
+ $ sleep_cycle : num [1:83] NA NA NA 0.133 0.667 ...
+ $ awake       : num [1:83] 11.9 7 9.6 9.1 20 9.6 15.3 17 13.9 21 ...
+ $ brainwt     : num [1:83] NA 0.0155 NA 0.00029 0.423 NA NA NA 0.07 0.0982 ...
+ $ bodywt      : num [1:83] 50 0.48 1.35 0.019 600 ...</code></pre>
+</div>
+</div>
+<p>Resumen estadístico del data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(msleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     name              genus               vore              order          
+ Length:83          Length:83          Length:83          Length:83         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+                                                                            
+ conservation        sleep_total      sleep_rem      sleep_cycle    
+ Length:83          Min.   : 1.90   Min.   :0.100   Min.   :0.1167  
+ Class :character   1st Qu.: 7.85   1st Qu.:0.900   1st Qu.:0.1833  
+ Mode  :character   Median :10.10   Median :1.500   Median :0.3333  
+                    Mean   :10.43   Mean   :1.875   Mean   :0.4396  
+                    3rd Qu.:13.75   3rd Qu.:2.400   3rd Qu.:0.5792  
+                    Max.   :19.90   Max.   :6.600   Max.   :1.5000  
+                                    NA's   :22      NA's   :51      
+     awake          brainwt            bodywt        
+ Min.   : 4.10   Min.   :0.00014   Min.   :   0.005  
+ 1st Qu.:10.25   1st Qu.:0.00290   1st Qu.:   0.174  
+ Median :13.90   Median :0.01240   Median :   1.670  
+ Mean   :13.57   Mean   :0.28158   Mean   : 166.136  
+ 3rd Qu.:16.15   3rd Qu.:0.12550   3rd Qu.:  41.750  
+ Max.   :22.10   Max.   :5.71200   Max.   :6654.000  
+                 NA's   :27                          </code></pre>
+</div>
+</div>
+</section>
+<section id="histograma" class="level2">
+<h2 class="anchored" data-anchor-id="histograma">Histograma</h2>
+<p>Un histograma es una representación gráfica de la distribución de frecuencias de una variable aleatoria. Consiste en una sucesión de rectángulos levantados sobre un eje x que representa los valores de la variable y la altura representa el número de apariciones de dicho valor.</p>
+<p>Cada rectángulo tiene un área proporcional a la frecuencia de valores observada en el intervalo sobre el que se levanta. En esta sección aprenderemos a construir un histograma con R.</p>
+<section id="histograma-variable-sleep_total" class="level4">
+<h4 class="anchored" data-anchor-id="histograma-variable-sleep_total">Histograma: variable sleep_total</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(msleep, <span class="fu">aes</span>(<span class="at">x=</span>sleep_total)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Cuántas horas duermen diariamente los mamíferos? ¿Según el histograma, dónde está el centro de los datos?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(msleep, <span class="fu">aes</span>(<span class="at">x=</span>sleep_total)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="medidas-de-centralidad-media-y-mediana" class="level2">
+<h2 class="anchored" data-anchor-id="medidas-de-centralidad-media-y-mediana">Medidas de centralidad: media y mediana</h2>
+<p>Página 160: Parámetros estadísticos</p>
+<ul>
+<li><a href="http://apuntesmareaverde.org.es/grupos/mat/PERSONAS%20ADULTAS/Adultas%20Valencia%20II.pdf" target="_blank">Libro marea verde (adultos)</a></li>
+</ul>
+<section id="la-media-y-la-mediana-en-r" class="level3">
+<h3 class="anchored" data-anchor-id="la-media-y-la-mediana-en-r">La media y la mediana en R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">mean</span>(msleep<span class="sc">$</span>sleep_total)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>media</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.43373</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="ot">&lt;-</span> <span class="fu">median</span>(msleep<span class="sc">$</span>sleep_total)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>mediana</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10.1</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="medidas-de-centralidad-la-moda" class="level2">
+<h2 class="anchored" data-anchor-id="medidas-de-centralidad-la-moda">Medidas de centralidad: La moda</h2>
+<p>La moda es una medida de centralidad para variable categórica. Representa la categoría más frecuente. Si contamos la frecuencia con la que aparece cada valor de sleep_total</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La moda:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sleep_total, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  sleep_total     n
+        &lt;dbl&gt; &lt;int&gt;
+1        12.5     4</code></pre>
+</div>
+</div>
+<section id="la-moda-en-r" class="level3">
+<h3 class="anchored" data-anchor-id="la-moda-en-r">La moda en R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tabla_frecuencias <span class="ot">&lt;-</span> <span class="fu">table</span>(msleep<span class="sc">$</span>sleep_total)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>moda <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">names</span>(tabla_frecuencias)[<span class="fu">which.max</span>(tabla_frecuencias)])</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>moda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("DescTools")</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DescTools)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">Mode</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.5
+attr(,"freq")
+[1] 4</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("prettyR")</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(prettyR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'prettyR'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:DescTools':
+
+    Mode</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>prettyR<span class="sc">::</span><span class="fu">Mode</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "12.5"</code></pre>
+</div>
+</div>
+<p>Para un valor numérico, generalmente no es una medida de centralidad que aporte información relevante. Sin embargo, si queremos analizar en nuestro data frame por la categoría “vore”, vemos que si tiene sentido:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(vore, <span class="at">sort =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  vore        n
+  &lt;chr&gt;   &lt;int&gt;
+1 herbi      32
+2 omni       20
+3 carni      19
+4 &lt;NA&gt;        7
+5 insecti     5</code></pre>
+</div>
+</div>
+<p>Vemos que el valor más frecuente en los datos estudiados en cuanto a la variable categórica “vore” es “herbi”</p>
+<p>Como hemos podido ver en el histograma y en el cálculo de la media y la mediana, observamos que la media y la mediana e incluso la moda, son valores que se están en el centro de nuestra distribución de datos.</p>
+<p>Sin embargo, si filtramos la distribución por los insectívoros:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>msleep_insect <span class="ot">&lt;-</span> msleep <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(vore <span class="sc">==</span> <span class="st">"insecti"</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>msleep_insect</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 11
+  name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
+  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+1 Big br… Epte… inse… Chir… lc                  19.7       3.9       0.117   4.3
+2 Little… Myot… inse… Chir… &lt;NA&gt;                19.9       2         0.2     4.1
+3 Giant … Prio… inse… Cing… en                  18.1       6.1      NA       5.9
+4 Easter… Scal… inse… Sori… lc                   8.4       2.1       0.167  15.6
+5 Short-… Tach… inse… Mono… &lt;NA&gt;                 8.6      NA        NA      15.4
+# ℹ 2 more variables: brainwt &lt;dbl&gt;, bodywt &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(msleep_insect, <span class="fu">aes</span>(<span class="at">x=</span>sleep_total)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Calculando de nuevo la media y la mediana:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>msleep_insect <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">media =</span> <span class="fu">mean</span>(sleep_total), <span class="at">mediana =</span> <span class="fu">median</span>(sleep_total))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  media mediana
+  &lt;dbl&gt;   &lt;dbl&gt;
+1  14.9    18.1</code></pre>
+</div>
+</div>
+<p>Observamos como ambos valores se alejan. En general, para datos simétricos, la media es mejor, aunque es muy sensible a valores extremos. Si los datos no son simétricos, la mediana es la medida de centralidad apropiada.</p>
+</section>
+</section>
+</section>
+<section id="medidas-de-dispersión" class="level1">
+<h1>Medidas de dispersión</h1>
+<section id="la-varianza" class="level2">
+<h2 class="anchored" data-anchor-id="la-varianza">La varianza</h2>
+<section id="la-varianza-poblacional" class="level3">
+<h3 class="anchored" data-anchor-id="la-varianza-poblacional">La varianza poblacional</h3>
+<ul>
+<li><p><span class="math inline">\(\sigma^{2} = {\frac{\sum_{i=1}^{n} (x_i - \mu)^2}{n}}\)</span></p></li>
+<li><p><a href="http://apuntesmareaverde.org.es/grupos/mat/PERSONAS%20ADULTAS/Adultas%20Valencia%20II.pdf" target="_blank">Libro marea verde. Página 161</a></p></li>
+<li><p><a href="https://drive.google.com/file/d/1Nt7DEKj_JUanux1DYWZAiaoMNdGeU0M9/view?usp=sharing" target="_blank">Libro Adymer. Página 71-71 (87 pdf)(</a></p></li>
+</ul>
+</section>
+<section id="la-varianza-muestral" class="level3">
+<h3 class="anchored" data-anchor-id="la-varianza-muestral">La varianza muestral</h3>
+<ul>
+<li><span class="math inline">\(s^{2} = {\frac{\sum_{i=1}^{n} (x_i - \mu)^2}{n-1}}\)</span></li>
+</ul>
+<p>Calculamos la distancia media de cada uno de los valores respecto a la media:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>dists <span class="ot">&lt;-</span> msleep<span class="sc">$</span>sleep_total <span class="sc">-</span> <span class="fu">mean</span>(msleep<span class="sc">$</span>sleep_total)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>dists</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  1.66626506  6.56626506  3.96626506  4.46626506 -6.43373494  3.96626506
+ [7] -1.73373494 -3.43373494 -0.33373494 -7.43373494 -5.13373494 -1.03373494
+[13] -0.43373494  2.06626506 -0.13373494 -2.13373494 -1.33373494  6.96626506
+[19] -5.13373494  7.56626506 -6.53373494  9.26626506 -7.53373494 -7.33373494
+[25] -0.33373494  0.46626506  4.46626506  2.06626506 -0.63373494 -8.53373494
+[31] -7.73373494 -4.23373494 -4.13373494 -2.43373494 -0.93373494 -7.13373494
+[37]  8.96626506 -0.33373494  3.76626506  3.86626506  2.36626506  2.06626506
+[43]  9.46626506  4.16626506  0.56626506 -2.73373494  4.06626506 -2.03373494
+[49] -6.63373494 -0.73373494  5.36626506 -0.03373494  3.06626506 -1.03373494
+[55] -0.13373494  0.56626506  1.06626506  3.26626506 -6.93373494 -4.83373494
+[61]  0.66626506  7.66626506 -5.03373494  2.56626506 -1.73373494 -0.83373494
+[67] -2.03373494  0.86626506  0.16626506  6.16626506  3.36626506  5.46626506
+[73]  2.36626506 -1.33373494 -1.83373494  5.36626506 -6.03373494  5.16626506
+[79] -1.53373494 -5.23373494 -4.13373494  2.06626506 -0.63373494</code></pre>
+</div>
+</div>
+<p>Elevamos al cuadrado:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>squared_dists <span class="ot">&lt;-</span> dists<span class="sc">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Calculamos el sumatorio:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sum_sq_dists <span class="ot">&lt;-</span> <span class="fu">sum</span>(squared_dists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dividimos entre n:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>sum_sq_dists <span class="sc">/</span> <span class="fu">nrow</span>(msleep)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.56705</code></pre>
+</div>
+</div>
+<p>Usando la función de R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>varianza_R <span class="ot">&lt;-</span> <span class="fu">var</span>(msleep<span class="sc">$</span>sleep_total)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>varianza_R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.80568</code></pre>
+</div>
+</div>
+<p>¿Por qué esta diferencia?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sum_sq_dists <span class="sc">/</span> (<span class="fu">nrow</span>(msleep)<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.80568</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>sum_sq_dists <span class="sc">/</span> (<span class="fu">nrow</span>(msleep)<span class="sc">-</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.80568</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>varianza_R <span class="sc">*</span> (((<span class="fu">nrow</span>(msleep)) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="fu">nrow</span>(msleep)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.56705</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="la-desviación-estándar-o-desviación-típica" class="level2">
+<h2 class="anchored" data-anchor-id="la-desviación-estándar-o-desviación-típica">La desviación estándar o desviación típica</h2>
+<p><span class="math inline">\(s=\sqrt{{\frac{{\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}}{n-1}}}\)</span></p>
+<p><span class="math inline">\(\sigma=\sqrt{{\frac{{\sum_{i=1}^{n}\left(x_{i}-\mu\right)^{2}}}{n}}}\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(msleep<span class="sc">$</span>sleep_total))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.450357</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.450357</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((<span class="fu">sum</span>((msleep<span class="sc">$</span>sleep_total <span class="sc">-</span> <span class="fu">mean</span>(msleep<span class="sc">$</span>sleep_total))<span class="sc">**</span><span class="dv">2</span>))<span class="sc">/</span>(<span class="fu">nrow</span>(msleep)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.423466</code></pre>
+</div>
+</div>
+</section>
+<section id="rango" class="level2">
+<h2 class="anchored" data-anchor-id="rango">Rango</h2>
+<p><span class="math inline">\(R= max\{xi\}-min\{xi\}\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(msleep<span class="sc">$</span>sleep_total) <span class="sc">-</span> <span class="fu">min</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div>
+<p>En R nos devuelve un vector de 2 elementos, mínimo y máximo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  1.9 19.9</code></pre>
+</div>
+</div>
+<p>Haciendo la diferencia:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(msleep<span class="sc">$</span>sleep_total)[<span class="dv">2</span>]<span class="sc">-</span> <span class="fu">range</span>(msleep<span class="sc">$</span>sleep_total)[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div>
+</section>
+<section id="eam.-error-absoluto-medio-mae-en-inglés" class="level2">
+<h2 class="anchored" data-anchor-id="eam.-error-absoluto-medio-mae-en-inglés">EAM. Error absoluto medio (MAE en inglés)</h2>
+<p>También conocido como desviación media absoluta.</p>
+<p><span class="math inline">\(R={\frac{{\sum_{i=1}^{n} | x_{i}-\mu |}}{n}}\)</span></p>
+<p>Creamos la función error medio y calculamos el error medio de sleep_total:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>mi_eam <span class="ot">&lt;-</span> <span class="cf">function</span>(vect) {</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  dm <span class="ot">&lt;-</span> vect <span class="sc">-</span> <span class="fu">mean</span>(vect)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  errror <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(dm))</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(errror)</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mi_eam</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.566701</code></pre>
+</div>
+</div>
+<p>La desviación estándar penaliza más los valores atípicos que los valores medios, mientras que el error medio penaliza las distancias por igual. Esto es debido a las distancias al cuadrado.</p>
+</section>
+<section id="cuantiles" class="level2">
+<h2 class="anchored" data-anchor-id="cuantiles">Cuantiles</h2>
+<p>Los cuantiles son puntos tomados a intervalos regulares de la función de distribución de una variable aleatoria. El cuantil de orden p de una distribución (con 0 &lt; p &lt; 1) es el valor de la variable Xp que marca un corte de modo que una proporción p de valores de la población es menor o igual que Xp.</p>
+<p>Los más usados son:</p>
+<ul>
+<li>Cuartiles: 0.25, 0.50 y 0.75</li>
+<li>Quintiles: 0.20, 0.40, 0.60 y 0,80</li>
+<li>Deciles: 0.10, 0.20, … , 0.9</li>
+<li>Percentiles: 0.01, 0.02, … 0.98, 0.99</li>
+</ul>
+<section id="cuantiles-en-una-distribución-de-probabilidad" class="level3">
+<h3 class="anchored" data-anchor-id="cuantiles-en-una-distribución-de-probabilidad">Cuantiles en una distribución de probabilidad</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Iqr_with_quantile.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">wikipedia</figcaption>
+</figure>
+</div>
+</section>
+<section id="cuantiles-vs-cuartiles" class="level3">
+<h3 class="anchored" data-anchor-id="cuantiles-vs-cuartiles">Cuantiles vs cuartiles</h3>
+<p>La función en R que permite calcular los valores cuantiles es:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(msleep<span class="sc">$</span>sleep_total)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   0%   25%   50%   75%  100% 
+ 1.90  7.85 10.10 13.75 19.90 </code></pre>
+</div>
+</div>
+<p>Por defecto, el vector de cuantiles que se pasa como argumento <em>probs</em> en la función <em>quantile()</em>, es el de los cuartiles:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Secuencia de 0 a 1 con saltos de 0.25</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.00 0.25 0.50 0.75 1.00</code></pre>
+</div>
+</div>
+</section>
+<section id="cuartiles-y-deciles" class="level3">
+<h3 class="anchored" data-anchor-id="cuartiles-y-deciles">Cuartiles y deciles</h3>
+<p>Los cuartiles, dividen los datos en 4 partes iguales, en nuestro caso, el 25 % de los datos se encuentran entre 1.90 y 7.85 horas. El siguiente 25 % de los datos entre 7.85 y 10.1, que se corresponde con la mediana, la cual como sabemos, divide los datos en dos partes iguales. El tercer cuartil corresponde a los datos entre la mediana y 13.75 y por último, entre 13.75 y 19.90.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>deciles <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(msleep<span class="sc">$</span>sleep_total, <span class="at">probs =</span> deciles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   0%   10%   20%   30%   40%   50%   60%   70%   80%   90%  100% 
+ 1.90  3.92  6.24  8.52  9.48 10.10 11.14 12.80 14.40 15.88 19.90 </code></pre>
+</div>
+</div>
+</section>
+<section id="percentiles" class="level3">
+<h3 class="anchored" data-anchor-id="percentiles">Percentiles</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>percentiles <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.01</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(msleep<span class="sc">$</span>sleep_total, <span class="at">probs =</span> percentiles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    0%     1%     2%     3%     4%     5%     6%     7%     8%     9%    10% 
+ 1.900  2.556  2.828  2.946  3.028  3.120  3.284  3.448  3.668  3.838  3.920 
+   11%    12%    13%    14%    15%    16%    17%    18%    19%    20%    21% 
+ 4.008  4.336  4.928  5.248  5.300  5.312  5.394  5.552  5.948  6.240  6.300 
+   22%    23%    24%    25%    26%    27%    28%    29%    30%    31%    32% 
+ 6.328  6.902  7.476  7.850  8.096  8.314  8.396  8.400  8.520  8.642  8.700 
+   33%    34%    35%    36%    37%    38%    39%    40%    41%    42%    43% 
+ 8.712  8.876  9.040  9.100  9.202  9.400  9.400  9.480  9.562  9.644  9.726 
+   44%    45%    46%    47%    48%    49%    50%    51%    52%    53%    54% 
+ 9.800  9.800  9.944 10.054 10.100 10.100 10.100 10.264 10.300 10.346 10.456 
+   55%    56%    57%    58%    59%    60%    61%    62%    63%    64%    65% 
+10.630 10.876 10.974 11.000 11.038 11.140 11.304 11.468 11.896 12.292 12.500 
+   66%    67%    68%    69%    70%    71%    72%    73%    74%    75%    76% 
+12.500 12.500 12.500 12.674 12.800 12.844 13.020 13.430 13.636 13.750 13.928 
+   77%    78%    79%    80%    81%    82%    83%    84%    85%    86%    87% 
+14.214 14.296 14.378 14.400 14.442 14.524 14.618 14.864 14.900 15.264 15.668 
+   88%    89%    90%    91%    92%    93%    94%    95%    96%    97%    98% 
+15.800 15.800 15.880 16.334 16.776 17.104 17.448 17.940 18.072 18.802 19.508 
+   99%   100% 
+19.736 19.900 </code></pre>
+</div>
+</div>
+</section>
+<section id="cálculo-vs-estimación" class="level3">
+<h3 class="anchored" data-anchor-id="cálculo-vs-estimación">Cálculo vs estimación</h3>
+<ul>
+<li><a href="https://es.wikipedia.org/wiki/Cuartil" target="_blank">Cuartiles</a></li>
+</ul>
+</section>
+</section>
+<section id="rango-intercuartil-iqr" class="level2">
+<h2 class="anchored" data-anchor-id="rango-intercuartil-iqr">Rango intercuartil (IQR)</h2>
+<p>El rango intercuartil o IQR, es otra medida de dispersión. Se corresponde con la distancia entre el primer y tercer cuartil, o lo que es lo mismo entre el percentil 25º y 75º. En el diagrama de caja y bigote representa los límites de la caja.</p>
+<p>Volviendo a nuestro ejemplo, calculamos la diferencia entre los quantiles 0.75 y 0.25</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(msleep<span class="sc">$</span>sleep_total, <span class="fl">0.25</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(msleep<span class="sc">$</span>sleep_total, <span class="fl">0.75</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>iqr <span class="ot">&lt;-</span>  q3 <span class="sc">-</span> q1</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>iqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>75% 
+5.9 </code></pre>
+</div>
+</div>
+</section>
+<section id="valores-atípicos-outliers" class="level2">
+<h2 class="anchored" data-anchor-id="valores-atípicos-outliers">Valores atípicos (Outliers)</h2>
+<p>Los valores atípicos se encuentran en el rango que se aleja 1.5 veces el rango intercuartil del primer y tercer cuartil:</p>
+<ul>
+<li>Dato &lt; Q1 - 1.5xIQR</li>
+<li>Dato &gt; Q3 + 1.5xIQR</li>
+</ul>
+<p>Si nos fijamos en la variable peso del data frame: <em>msleep$bodywt</em> y Calculamos q1 y q3</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(msleep<span class="sc">$</span>bodywt, <span class="fl">0.25</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>q1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  25% 
+0.174 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(msleep<span class="sc">$</span>bodywt, <span class="fl">0.75</span>)</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>q3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  75% 
+41.75 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>iqr <span class="ot">&lt;-</span> q3 <span class="sc">-</span> q1</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>iqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   75% 
+41.576 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>atip_bajo <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span><span class="sc">*</span>iqr</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>atip_bajo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   25% 
+-62.19 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>atip_alto <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span><span class="sc">*</span>iqr</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>atip_alto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    75% 
+104.114 </code></pre>
+</div>
+</div>
+<p>¿Tiene sentido el atípico bajo?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(bodywt <span class="sc">&lt;</span> atip_bajo <span class="sc">|</span> bodywt <span class="sc">&gt;</span> atip_alto ) <span class="sc">%&gt;%</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(name, vore, sleep_total, bodywt) <span class="sc">%&gt;%</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  name           vore  sleep_total bodywt
+  &lt;chr&gt;          &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+1 Cow            herbi         4     600 
+2 Asian elephant herbi         3.9  2547 
+3 Horse          herbi         2.9   521 
+4 Donkey         herbi         3.1   187 
+5 Giraffe        herbi         1.9   900.
+6 Pilot whale    carni         2.7   800 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(bodywt <span class="sc">&lt;</span> atip_bajo <span class="sc">|</span> bodywt <span class="sc">&gt;</span> atip_alto ) <span class="sc">%&gt;%</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(name, vore, sleep_total, bodywt) <span class="sc">%&gt;%</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  name                 vore  sleep_total bodywt
+  &lt;chr&gt;                &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;
+1 Pilot whale          carni         2.7   800 
+2 African elephant     herbi         3.3  6654 
+3 Tiger                carni        15.8   163.
+4 Lion                 carni        13.5   161.
+5 Brazilian tapir      herbi         4.4   208.
+6 Bottle-nosed dolphin carni         5.2   173.</code></pre>
+</div>
+</div>
+</section>
+<section id="diagramas-de-caja-y-bigote-boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="diagramas-de-caja-y-bigote-boxplot">Diagramas de caja y bigote (boxplot)</h2>
+<p>Los diagramas de caja y bigote utilizan los cuartiles para representar gráficamente la dispersión de los datos. La caja muestra los valores comprendidos entre los cuartiles 1 y 3, la línea interna de la caja representa la mediana.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(msleep, <span class="fu">aes</span>(<span class="at">y =</span> sleep_total)) <span class="sc">+</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-42-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En el diagrama de caja y bigote, los valores fuera del rango intercuartil no considerados atípicos, se representan con una línea superior y otra inferior a continuación de la caja. Los valores considerados atípicos, se representan mediante puntos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(msleep, <span class="fu">aes</span>(<span class="at">y =</span> bodywt)) <span class="sc">+</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-43-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Si reducimos la muestra a los mamíferos pequeños (menos de 20kg):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> <span class="fu">filter</span>(bodywt <span class="sc">&lt;</span> <span class="dv">20</span> ) <span class="sc">%&gt;%</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> bodywt)) <span class="sc">+</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="SAA_intro_stats_01_files/figure-html/unnamed-chunk-44-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vemos que los datos son mucho menos dispersos y el diagrama se puede visualizar correctamente</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
