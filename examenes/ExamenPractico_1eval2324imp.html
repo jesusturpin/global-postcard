@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Indica tu nombre aquí">
+<meta name="dcterms.date" content="2023-12-05">
+
+<title>Exámen práctico PRIA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="ExamenPractico_1eval2324imp_files/libs/clipboard/clipboard.min.js"></script>
+<script src="ExamenPractico_1eval2324imp_files/libs/quarto-html/quarto.js"></script>
+<script src="ExamenPractico_1eval2324imp_files/libs/quarto-html/popper.min.js"></script>
+<script src="ExamenPractico_1eval2324imp_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="ExamenPractico_1eval2324imp_files/libs/quarto-html/anchor.min.js"></script>
+<link href="ExamenPractico_1eval2324imp_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="ExamenPractico_1eval2324imp_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="ExamenPractico_1eval2324imp_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="ExamenPractico_1eval2324imp_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="ExamenPractico_1eval2324imp_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#football-data-datawrangling-básico" id="toc-football-data-datawrangling-básico" class="nav-link active" data-scroll-target="#football-data-datawrangling-básico">1. Football-data: Datawrangling básico</a></li>
+  <li><a href="#descargando-datos-externos" id="toc-descargando-datos-externos" class="nav-link" data-scroll-target="#descargando-datos-externos">1.1 Descargando datos externos</a>
+  <ul class="collapse">
+  <li><a href="#selección-de-datos-0.1-pts" id="toc-selección-de-datos-0.1-pts" class="nav-link" data-scroll-target="#selección-de-datos-0.1-pts">1.2 Selección de datos <strong>(0.1 Pts)</strong></a></li>
+  <li><a href="#unión-por-filas-0.25-pts" id="toc-unión-por-filas-0.25-pts" class="nav-link" data-scroll-target="#unión-por-filas-0.25-pts">1.3 Unión por filas <strong>(0.25 Pts)</strong></a></li>
+  <li><a href="#estructura-resultante-0.1-pts" id="toc-estructura-resultante-0.1-pts" class="nav-link" data-scroll-target="#estructura-resultante-0.1-pts">1.4 Estructura resultante <strong>(0.1 Pts)</strong></a></li>
+  <li><a href="#paquetes-y-librerías-0.25-pts" id="toc-paquetes-y-librerías-0.25-pts" class="nav-link" data-scroll-target="#paquetes-y-librerías-0.25-pts">1.5 Paquetes y librerías <strong>(0.25 Pts)</strong></a></li>
+  <li><a href="#tipos-de-datos-y-conversiones-0.5-pts" id="toc-tipos-de-datos-y-conversiones-0.5-pts" class="nav-link" data-scroll-target="#tipos-de-datos-y-conversiones-0.5-pts">1.6 Tipos de datos y conversiones <strong>(0.5 Pts)</strong></a></li>
+  </ul></li>
+  <li><a href="#football-data-datawrangling-avanzado" id="toc-football-data-datawrangling-avanzado" class="nav-link" data-scroll-target="#football-data-datawrangling-avanzado">2. Football-data: Datawrangling avanzado</a>
+  <ul class="collapse">
+  <li><a href="#retorno-y-comisión-0.25-pts" id="toc-retorno-y-comisión-0.25-pts" class="nav-link" data-scroll-target="#retorno-y-comisión-0.25-pts">2.1 Retorno y comisión <strong>(0.25 Pts)</strong></a></li>
+  <li><a href="#cuotas-ajustadas-0.5-pts" id="toc-cuotas-ajustadas-0.5-pts" class="nav-link" data-scroll-target="#cuotas-ajustadas-0.5-pts">2.2 Cuotas ajustadas <strong>(0.5 Pts)</strong></a></li>
+  <li><a href="#probabilidades-estimadas-por-la-casa-de-apuestas-0.25-pts" id="toc-probabilidades-estimadas-por-la-casa-de-apuestas-0.25-pts" class="nav-link" data-scroll-target="#probabilidades-estimadas-por-la-casa-de-apuestas-0.25-pts">2.3 Probabilidades estimadas por la casa de apuestas <strong>(0.25 Pts)</strong></a></li>
+  <li><a href="#pivote-o-join-1-pts" id="toc-pivote-o-join-1-pts" class="nav-link" data-scroll-target="#pivote-o-join-1-pts">2.4 Pivote o join <strong>(1 Pts)</strong></a></li>
+  <li><a href="#métricas-puntos-pts-puntos-esperados-epts-1-pts" id="toc-métricas-puntos-pts-puntos-esperados-epts-1-pts" class="nav-link" data-scroll-target="#métricas-puntos-pts-puntos-esperados-epts-1-pts">2.5 Métricas: puntos (Pts), puntos esperados (EPts) <strong>(1 Pts)</strong></a></li>
+  </ul></li>
+  <li><a href="#football-data-resumen-y-visualización" id="toc-football-data-resumen-y-visualización" class="nav-link" data-scroll-target="#football-data-resumen-y-visualización">3. Football-data: Resumen y Visualización</a>
+  <ul class="collapse">
+  <li><a href="#tabla-de-clasificación-por-epts-0.5-pts" id="toc-tabla-de-clasificación-por-epts-0.5-pts" class="nav-link" data-scroll-target="#tabla-de-clasificación-por-epts-0.5-pts">3.1 Tabla de clasificación por EPts <strong>(0.5 Pts)</strong></a></li>
+  <li><a href="#tabla-de-clasificación-por-ratio-ptsepts-0.5-pts" id="toc-tabla-de-clasificación-por-ratio-ptsepts-0.5-pts" class="nav-link" data-scroll-target="#tabla-de-clasificación-por-ratio-ptsepts-0.5-pts">3.2 Tabla de clasificación por Ratio Pts/EPts <strong>(0.5 Pts)</strong></a></li>
+  <li><a href="#visualización-0.8-pts" id="toc-visualización-0.8-pts" class="nav-link" data-scroll-target="#visualización-0.8-pts">3.3 Visualización <strong>(0.8 Pts)</strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Exámen práctico PRIA</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Indica tu nombre aquí </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 5, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Librerías</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># library(broom)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://drive.google.com/file/d/1RbOfrOZc1S4JwHYWhDCTjg9Vt_o5FN77/view?usp=sharing">Descargar material</a></p>
+<section id="football-data-datawrangling-básico" class="level1">
+<h1>1. Football-data: Datawrangling básico</h1>
+<p>En esta sección se realizarán tareas de descarga y lectura de datos, manipulación básica, selección de variables, conversiones de tipos, y exploración de la estructura de datos.</p>
+<p>urls: https://raw.githubusercontent.com/jesusturpin/curintel2324/main/data/SP1.csv https://raw.githubusercontent.com/jesusturpin/curintel2324/main/data/SP2.csv</p>
+</section>
+<section id="descargando-datos-externos" class="level1">
+<h1>1.1 Descargando datos externos</h1>
+<p>Descarga los resultados de los partidos de fútbol de 1º y 2º división españolas y guárdalos en las variables SP1 y SP2 respectivamente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SP1 <span class="ot">&lt;-</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>SP2 <span class="ot">&lt;-</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="selección-de-datos-0.1-pts" class="level2">
+<h2 class="anchored" data-anchor-id="selección-de-datos-0.1-pts">1.2 Selección de datos <strong>(0.1 Pts)</strong></h2>
+<p>Para ambos dataframes, selecciona las columnas Div, Date, HomeTeam, AwayTeam, FTHG, FTAG, PSCH, PSCA, que se corresponden con:</p>
+<ul>
+<li><p>Div: Liga</p></li>
+<li><p>Date: Fecha</p></li>
+<li><p>HomeTeam: Local</p></li>
+<li><p>AwayTeam: Visitante</p></li>
+<li><p>FTHG: Marcador Local</p></li>
+<li><p>FTAG: Marcador Visitante</p></li>
+<li><p>FTR: Resultado: “H” (Victoria Local), “D” (Empate), “A”(Victoria Visitante)</p></li>
+<li><p>PSCH: Cotización/cuota de la victoria equipo local justo al comienzo del encuentro (casa PS).</p></li>
+<li><p>PSCD: Cotización/cuota del empate justo al comienzo del encuentro (casa PS).</p></li>
+<li><p>PSCA: Cotización/cuota de la victoria visitante justo al comienzo del encuentro (casa PS).</p></li>
+</ul>
+<p><strong>Aclaración</strong>: La cotización o cuota se corresponde con el multiplicador o cantidad bruta que se pagaría sobre una apuesta acertada. Por ejemplo, si la victoria local tiene valor PSCH = 2.4, un apostante que haya pronosticado y acertado ese resultado, recibiría 2.4 € por cada euro apostado. Si apostó 10 €, recibiría 24 €, si su inversión fue 10 €, su ganancia neta serían 14.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SP1_1<span class="fl">.1</span> <span class="ot">&lt;-</span> SP1 <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>SP2_1<span class="fl">.2</span> <span class="ot">&lt;-</span> SP2 <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="unión-por-filas-0.25-pts" class="level2">
+<h2 class="anchored" data-anchor-id="unión-por-filas-0.25-pts">1.3 Unión por filas <strong>(0.25 Pts)</strong></h2>
+<p>Une por filas ambos dataframes y guárdalos en la variable SP_1.3</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>SP_1<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="sc">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="estructura-resultante-0.1-pts" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-resultante-0.1-pts">1.4 Estructura resultante <strong>(0.1 Pts)</strong></h2>
+<p>Muestra la estructura del dataframe SP_1.3 e indica:</p>
+<ul>
+<li>Número de filas:</li>
+<li>Número de columnas:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SP_1<span class="fl">.3</span> <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="paquetes-y-librerías-0.25-pts" class="level2">
+<h2 class="anchored" data-anchor-id="paquetes-y-librerías-0.25-pts">1.5 Paquetes y librerías <strong>(0.25 Pts)</strong></h2>
+<p>Instala el paquete <em>skimr</em>, carga la librería y utiliza la función <code>skim</code> sobre el dataframe SP_1.3. ¿Hay alguna variable con huecos o valores perdidos (NULL, NA, espacios, etc.)?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="sc">----</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="sc">----</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tipos-de-datos-y-conversiones-0.5-pts" class="level2">
+<h2 class="anchored" data-anchor-id="tipos-de-datos-y-conversiones-0.5-pts">1.6 Tipos de datos y conversiones <strong>(0.5 Pts)</strong></h2>
+<p>De las variables anteriores, indica cuáles son de los siguientes tipos:</p>
+<ul>
+<li><p>Numéricas discretas:</p></li>
+<li><p>Numéricas contínuas:</p></li>
+<li><p>Categóricas nominales:</p></li>
+<li><p>Categóricas ordinales:</p></li>
+</ul>
+<p>Convierte el tipo de la variable Date a tipo fecha (<code>Date</code>) . Convierte a factor el resto de variables categóricas. Una de ellas es ordinal, por lo que no debes olvidar asignar los niveles.</p>
+<p>Guarda el dataframe resultante en la variable SP_1.6</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SP_1<span class="fl">.6</span> <span class="ot">&lt;-</span> SP_1<span class="fl">.3</span> <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(Date, <span class="at">format =</span> <span class="st">"%d/%m/%Y"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Div =</span> <span class="sc">---</span>(Div, <span class="sc">---</span> <span class="er">=</span> <span class="sc">---</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora aplica la función resumen, e indica:</p>
+<ul>
+<li>Nº partidos de 1ª:</li>
+<li>Nº partidos de 2ª:</li>
+<li>Fecha 1º partido:</li>
+<li>Fecha último partido:</li>
+<li>Máximo nº de goles:</li>
+<li>Cuota más alta: ¿a qué resultado: H, D ó A?</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">---</span>(SP_1<span class="fl">.6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="football-data-datawrangling-avanzado" class="level1">
+<h1>2. Football-data: Datawrangling avanzado</h1>
+<p>En esta sección, se crearán variables y métricas nuevas a partir de los datos originales.</p>
+<section id="retorno-y-comisión-0.25-pts" class="level2">
+<h2 class="anchored" data-anchor-id="retorno-y-comisión-0.25-pts">2.1 Retorno y comisión <strong>(0.25 Pts)</strong></h2>
+<p>El retorno indica la proporción de premios que la sala retorna sobre lo recaudado al conjunto de sus apostantes en un punto de equilibrio para un partido y unas cotizaciones al local, empate y visitante registradas en las columnas PSCH, PSCD y PSCA respectivamente. El valor lógicamente será un número entre 0 y 1, pues si es superior a 1, ¡la banca pierde! y como te imaginarás, eso no ocurre.</p>
+<p>La fórmula del retorno para cotizaciones en formato decimal, como vienen en <em>football-data</em> es:</p>
+<p><span class="math display">\[Ret = \frac{1}{{\frac{1}{PSCH} + \frac{1}{PSCD} + \frac{1}{PSCA}}}\]</span></p>
+<p>Si el retorno es la proporción que reparte de lo recaudado por evento, la comisión promedio que gana la sala es:</p>
+<p><span class="math display">\[Fee = 1 - Ret\]</span> Crea las columnas <em>Ret</em> y <em>Fee</em> según las fórmulas descritas. Guarda el resultado en <em>SP_2.1</em></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.1</span> <span class="ot">&lt;-</span> SP_1<span class="fl">.6</span> <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  ... </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="cuotas-ajustadas-0.5-pts" class="level2">
+<h2 class="anchored" data-anchor-id="cuotas-ajustadas-0.5-pts">2.2 Cuotas ajustadas <strong>(0.5 Pts)</strong></h2>
+<p>Ahora crea 3 nuevas columnas <em>PSCH_adj</em>, <em>PSCD_adj</em> y <em>PSCA_adj cuyo</em> que son las cuotas ajustadas, es decir, las cuotas originales ofrecidas por una determinada sala de apuestas si eliminamos comisiones implícitas. Si en esas cuotas calculásemos <em>Fee</em> y <em>Ret</em>, los resultados serían 0 y 1 respectivamente. Puedes verificar si lo has hecho bien si calculas Ret y obtienes siempre 1. Guarda el dataframe resultante en SP_2.2.</p>
+<p>Sus fórmulas son:</p>
+<ul>
+<li><span class="math inline">\(PSCH_{\text{adj}} = PSCH \left( \frac{1}{PSCH} + \frac{1}{PSCD} + \frac{1}{PSCA} \right)\)</span></li>
+<li><span class="math inline">\(PSCD_{\text{adj}} = PSCD \left( \frac{1}{PSCH} + \frac{1}{PSCD} + \frac{1}{PSCA} \right)\)</span></li>
+<li><span class="math inline">\(PSCA_{\text{adj}} = PSCA \left( \frac{1}{PSCH} + \frac{1}{PSCD} + \frac{1}{PSCA} \right)\)</span></li>
+</ul>
+<p>Para no repetir cálculos, vamos a definir la variable probabilidades implícitas totales <em>Total_prob_imp</em>:</p>
+<p><span class="math inline">\(Total\_prob\_imp = \frac{1}{PSCH} + \frac{1}{PSCD} + \frac{1}{PSCA}\)</span></p>
+<p>De este modo, las fórmulas quedarían:</p>
+<ul>
+<li><span class="math inline">\(PSCH_{\text{adj}} = Total\_prob\_imp \cdot PSCH\)</span></li>
+<li><span class="math inline">\(PSCD_{\text{adj}} = Total\_prob\_imp \cdot PSCD\)</span></li>
+<li><span class="math inline">\(PSCA_{\text{adj}} = Total\_prob\_imp \cdot PSCA\)</span></li>
+</ul>
+<p>Elimina la variable <em>Total_prob_imp</em> si las has creado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.2</span> <span class="ot">&lt;-</span> SP_2<span class="fl">.1</span> <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  ...</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#(-Total_prob_imp)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="probabilidades-estimadas-por-la-casa-de-apuestas-0.25-pts" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidades-estimadas-por-la-casa-de-apuestas-0.25-pts">2.3 Probabilidades estimadas por la casa de apuestas <strong>(0.25 Pts)</strong></h2>
+<p>Una vez calculadas las cuotas ajustadas sin margen, calcular las probabilidades es tan simple como calcular la inversa de la cuota de cada posible evento:</p>
+<ul>
+<li><span class="math inline">\(P_H = \frac{1}{PSCH_{\text{adj}}}\)</span></li>
+<li><span class="math inline">\(P_D = \frac{1}{PSCD_{\text{adj}}}\)</span></li>
+<li><span class="math inline">\(P_A = \frac{1}{PSCA_{\text{adj}}}\)</span></li>
+</ul>
+<p>Añade 3 nuevas columnas llamadas PH, PD y PA que se corresponden con las probabilidades de victoria local, empate o victoria visitante según se estima a partir de las cuotas.</p>
+<p>Ordena los resultados por Fecha, División y por orden alfabético del equipo local. Muestra las 10 primeras filas</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.3</span> <span class="ot">&lt;-</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  SP_2<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">PH =</span> <span class="dv">1</span><span class="sc">/</span>PSCH_adj,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">PD =</span> <span class="dv">1</span><span class="sc">/</span>PSCD_adj,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">PA =</span> <span class="dv">1</span><span class="sc">/</span>PSCA_adj) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(Date, Div, HomeTeam) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="pivote-o-join-1-pts" class="level2">
+<h2 class="anchored" data-anchor-id="pivote-o-join-1-pts">2.4 Pivote o join <strong>(1 Pts)</strong></h2>
+<p>Ahora el desafío consiste en dividir el dataframe de partidos a equipos. Cada fila ahora se debe duplicar para mostrar la información desde la perspectiva del equipo local en una y desde el equipo visitante en la otra fila.</p>
+<p>Se eliminan las columnas HomeTeam y AwayTeam, sustituyéndose por una nueva llamada <em>HomeAway</em> y otra con los valores llamada <em>Equipo</em>. Coloca las nuevas columnas en la 3º y 4º posición.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(SP_2<span class="fl">.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 652
+Columns: 18
+$ Div      &lt;fct&gt; SP1, SP1, SP1, SP1, SP2, SP2, SP2, SP2, SP1, SP1, SP1, SP1, S…
+$ Date     &lt;date&gt; 2023-08-11, 2023-08-11, 2023-08-11, 2023-08-11, 2023-08-11, …
+$ HomeAway &lt;chr&gt; "HomeTeam", "AwayTeam", "HomeTeam", "AwayTeam", "HomeTeam", "…
+$ Equipo   &lt;chr&gt; "Almeria", "Vallecano", "Sevilla", "Valencia", "Amorebieta", …
+$ FTR      &lt;fct&gt; A, A, A, A, D, D, H, H, A, A, D, D, D, D, A, A, H, H, H, H, A…
+$ FTHG     &lt;int&gt; 0, 0, 1, 1, 1, 1, 2, 2, 0, 0, 1, 1, 1, 1, 0, 0, 4, 4, 2, 2, 0…
+$ FTAG     &lt;int&gt; 2, 2, 2, 2, 1, 1, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2…
+$ PSCH     &lt;dbl&gt; 2.66, 2.66, 1.94, 1.94, 3.19, 3.19, 1.94, 1.94, 3.44, 3.44, 2…
+$ PSCD     &lt;dbl&gt; 3.25, 3.25, 3.46, 3.46, 3.13, 3.13, 3.40, 3.40, 3.50, 3.50, 2…
+$ PSCA     &lt;dbl&gt; 2.96, 2.96, 4.58, 4.58, 2.54, 2.54, 4.55, 4.55, 2.24, 2.24, 3…
+$ Ret      &lt;dbl&gt; 0.9789813, 0.9789813, 0.9776873, 0.9776873, 0.9740235, 0.9740…
+$ Fee      &lt;dbl&gt; 0.02101872, 0.02101872, 0.02231265, 0.02231265, 0.02597646, 0…
+$ PSCH_adj &lt;dbl&gt; 2.717110, 2.717110, 1.984274, 1.984274, 3.275075, 3.275075, 1…
+$ PSCD_adj &lt;dbl&gt; 3.319777, 3.319777, 3.538964, 3.538964, 3.213475, 3.213475, 3…
+$ PSCA_adj &lt;dbl&gt; 3.023551, 3.023551, 4.684524, 4.684524, 2.607740, 2.607740, 4…
+$ PH       &lt;dbl&gt; 0.3680381, 0.3680381, 0.5039625, 0.5039625, 0.3053365, 0.3053…
+$ PD       &lt;dbl&gt; 0.3012250, 0.3012250, 0.2825686, 0.2825686, 0.3111896, 0.3111…
+$ PA       &lt;dbl&gt; 0.3307369, 0.3307369, 0.2134689, 0.2134689, 0.3834738, 0.3834…</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.4</span> <span class="ot">&lt;-</span> SP_2<span class="fl">.3</span> <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">cols =</span> <span class="sc">---</span>, <span class="at">names_to =</span> <span class="sc">---</span>, <span class="at">values_to =</span> <span class="sc">---</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="sc">---</span>, <span class="sc">---</span>, <span class="sc">---</span>, <span class="sc">---</span>, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="métricas-puntos-pts-puntos-esperados-epts-1-pts" class="level2">
+<h2 class="anchored" data-anchor-id="métricas-puntos-pts-puntos-esperados-epts-1-pts">2.5 Métricas: puntos (Pts), puntos esperados (EPts) <strong>(1 Pts)</strong></h2>
+<p>Crea las siguientes variables:</p>
+<ul>
+<li>Puntos (Pts) 3 por cada victoria local y 1 por cada empate</li>
+<li>Puntos esperados (EPts). En este caso, no importa el resultado. Los puntos esperados se calculan multiplicando 3 por la probabilidad de victoria y sumando la probabilidad de empate. Si un equipo tiene una probabilidad de victoria del 50 % y su probabilidad de empate es 25 %, sus puntos esperados serían: 0.5x3 + 0.25 = 1.75</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(SP_2<span class="fl">.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 20
+  Div   Date       Equipo       Pts  EPts HomeAway FTR    FTHG  FTAG  PSCH  PSCD
+  &lt;fct&gt; &lt;date&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 SP1   2023-08-11 Almeria        0 1.41  HomeTeam A         0     2  2.66  3.25
+2 SP1   2023-08-11 Vallecano      3 1.29  AwayTeam A         0     2  2.66  3.25
+3 SP1   2023-08-11 Sevilla        0 1.79  HomeTeam A         1     2  1.94  3.46
+4 SP1   2023-08-11 Valencia       3 0.923 AwayTeam A         1     2  1.94  3.46
+5 SP2   2023-08-11 Amorebieta     1 1.23  HomeTeam D         1     1  3.19  3.13
+6 SP2   2023-08-11 Levante        1 1.46  AwayTeam D         1     1  3.19  3.13
+# ℹ 9 more variables: PSCA &lt;dbl&gt;, Ret &lt;dbl&gt;, Fee &lt;dbl&gt;, PSCH_adj &lt;dbl&gt;,
+#   PSCD_adj &lt;dbl&gt;, PSCA_adj &lt;dbl&gt;, PH &lt;dbl&gt;, PD &lt;dbl&gt;, PA &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.5</span> <span class="ot">&lt;-</span> SP_2<span class="fl">.4</span> <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">EPts =</span> <span class="sc">----------</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">Pts =</span> <span class="sc">----------------</span> ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Div, Date, Equipo, Pts, EPts, <span class="fu">everything</span>()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="football-data-resumen-y-visualización" class="level1">
+<h1>3. Football-data: Resumen y Visualización</h1>
+<section id="tabla-de-clasificación-por-epts-0.5-pts" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-de-clasificación-por-epts-0.5-pts">3.1 Tabla de clasificación por EPts <strong>(0.5 Pts)</strong></h2>
+<p>Implementa una función llamada <code>ranking_epts</code> que reciba 4 parámetros e imprima el ranking según los parámetros:</p>
+<ul>
+<li>“team.results”: data frame con los resultados partido a partido de cada equipo</li>
+<li>“liga”: cadena de texto “SP1” o “SP2”</li>
+<li>“orden.epts”. Opcional, su valor por defecto es FALSE.</li>
+<li>“invertir.orden”. Opcional, su valor por defecto es FALSE.</li>
+</ul>
+<p>La salida tiene que ser un dataframe con 4 columnas en este orden:</p>
+<ul>
+<li>Puesto: ranking o clasificación 1,2,3…</li>
+<li>Equipo</li>
+<li>Pts</li>
+<li>EPts</li>
+</ul>
+<p>La clasificación se ordena por Pts o por EPts, según el parámetro opcional “orden.epts” y el orden es de mayor a menor puntuación, excepto si el parámetro invertir.orden está a TRUE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ranking_epts <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="sc">---</span>, <span class="sc">---</span>, <span class="sc">------</span>, <span class="sc">------</span>) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Si el orden es pts, </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># entonces </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      <span class="co"># ¿orden por defecto? si --&gt; Imprime clasificación por pts mayor a menor</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="co">#                     no --&gt; Imprime clasificación por pts menor a mayor</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Si el orden es Epts, </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># entonces </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="co"># ¿orden por defecto? si --&gt; Imprime clasificación por Epts mayor a menor</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="co">#                     no --&gt; Imprime clasificación por Epts menor a mayor</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Test Función:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ranking_epts</span>(SP_2<span class="fl">.5</span>, <span class="st">"SP1"</span>, <span class="at">orden.epts =</span> <span class="cn">TRUE</span>, <span class="at">invertir.orden =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ranking_epts</span>(SP_2<span class="fl">.5</span>, <span class="st">"SP2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="tabla-de-clasificación-por-ratio-ptsepts-0.5-pts" class="level2">
+<h2 class="anchored" data-anchor-id="tabla-de-clasificación-por-ratio-ptsepts-0.5-pts">3.2 Tabla de clasificación por Ratio Pts/EPts <strong>(0.5 Pts)</strong></h2>
+<p>Crea la variable R_Pts_EP e imprime la clasificación por ese criterio. Utiliza ambas ligas en conjunto</p>
+<ul>
+<li>Ratio Pts vs Epts (R_Pts_EP). Dividir los puntos conseguidos entre los esperados. Un valor por encima de 1 indica que el equipo lo ha hecho mejor de lo esperado y por debajo de 1 indica lo contrario.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.5</span> <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  g<span class="sc">---</span>(<span class="sc">---</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  s<span class="sc">---</span>(<span class="at">R_Pts_EP =</span> <span class="sc">-----</span><span class="er">/</span><span class="sc">---</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="sc">-----</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="sc">---</span>(<span class="at">Puesto =</span> <span class="fu">row_number</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Puesto, <span class="fu">everything</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualización-0.8-pts" class="level2">
+<h2 class="anchored" data-anchor-id="visualización-0.8-pts">3.3 Visualización <strong>(0.8 Pts)</strong></h2>
+<p>Realiza un diagrama de dispersión enfrentando el promedio de puntos Pts (y) vs Promedio de puntos esperados EPts (x). Usa un lienzo para cada gráfica, según su liga.</p>
+<ul>
+<li>Dibuja un diagrama de dispersión enfrentando Pts vs EPts en cada equipo.</li>
+<li>El color se mapea según si el ratio Pts/EPts es mayor que uno.</li>
+<li>Mapea el tamaño según el valor absoluto de diff_pts abs(Pts - Epts)</li>
+<li>Añade una línea recta con pendiente 1 y que pase por el origen.</li>
+<li>Crea facetas para representar cada liga en un lienzo diferente</li>
+<li>Usa text_repel para mostrar los nombres de los equipos</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel) <span class="co"># Instala el paquete si es necesario</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>SP_2<span class="fl">.5</span> <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Div, Equipo) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="sc">----</span>, <span class="co"># Puntos</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">----</span>, <span class="co"># Puntos esperados</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>            <span class="sc">----</span>, <span class="co"># Ratio</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">diff_pts =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(Pts <span class="sc">-</span> EPts)), <span class="co"># Diferencia abs Pts - EPts</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="sc">---</span>, <span class="at">y =</span> <span class="sc">---</span>, <span class="at">size =</span> <span class="sc">---</span>, <span class="at">color =</span> <span class="sc">---</span> <span class="er">&gt;</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_</span>(<span class="at">alpha =</span> <span class="fl">0.75</span>)<span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="sc">---</span>, <span class="at">slope =</span> <span class="sc">---</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(<span class="sc">---</span>(<span class="sc">--------</span>), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> <span class="sc">---</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ExamenPractico_1eval2324imp_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
