@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Unidades de Trabajo y Orientaciones · LMSGI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#fff; --fg:#1b1f23; --muted:#6a737d; --accent:#0b5fff;
+    --card:#f6f8fa; --line:#e1e4e8; --ok:#0a7d32; --warn:#8a6d3b;
+  }
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue","Noto Sans",Arial}
+  header{padding:2rem 1rem 1rem;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff, #f9fbff)}
+  h1{margin:.25rem 0 0;font-size:1.8rem}
+  .subtitle{color:var(--muted);margin:.25rem 0 0}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
+  .notice{background:#f0f7ff;border:1px solid #d6e4ff;padding:1rem;border-radius:12px}
+  .toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.75rem;margin:1rem 0 0;padding:0;list-style:none}
+  .toc a{display:block;padding:.75rem .9rem;border:1px solid var(--line);border-radius:12px;background:var(--card);text-decoration:none;color:var(--fg)}
+  .toc a:hover{border-color:var(--accent);outline:2px solid #e9f0ff}
+  h2{margin:2rem 0 1rem;font-size:1.5rem}
+  table{width:100%;border-collapse:collapse;border:1px solid var(--line);background:var(--bg)}
+  th,td{padding:.6rem .5rem;border-top:1px solid var(--line);vertical-align:top}
+  th{background:var(--card);text-align:left}
+  .muted{color:var(--muted)}
+  .pill{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:.15rem .6rem;font-size:.85rem;margin:.15rem .25rem 0 0}
+  .badge{display:inline-block;background:#edf2ff;color:#1d3b8b;padding:.1rem .5rem;border-radius:6px;font-size:.8rem;border:1px solid #dbe4ff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem}
+  details{border:1px dashed var(--line);border-radius:10px;padding:.5rem .8rem;background:#fff}
+  summary{cursor:pointer;font-weight:600}
+  .links a{display:inline-block;margin:.25rem .5rem .25rem 0;text-decoration:none}
+  .tag{font-size:.8rem;color:#1d3b8b;border:1px solid #dbe4ff;background:#f5f8ff;padding:.1rem .4rem;border-radius:6px}
+  .checklist li{margin:.3rem 0}
+  .backtop{display:inline-block;margin-top:.75rem}
+  .callout-ok{border-left:4px solid var(--ok);background:#f3fbf6;padding:.75rem;border-radius:8px}
+  .callout-warn{border-left:4px solid var(--warn);background:#fff8e6;padding:.75rem;border-radius:8px}
+  .small{font-size:.92rem}
+  footer{margin:3rem 0 2rem;color:var(--muted)}
+  hr{border:none;border-top:1px solid var(--line);margin:2rem 0}
+  /* ===================== ESTADO UNIDADES DE TRABAJO (UT) ===================== */
+  /* Se definen clases para marcar el estado de cada UT en el índice:
+     - ut-completed: UT ya vista/completada (p. ej. UT0, UT1)
+     - ut-current: UT en curso / actual (p. ej. UT2)
+     - ut-pending: UT no vista todavía (p. ej. UT3..UT7)
+     Estas reglas dan un color de fondo/borde distinto para cada estado
+     y una pequeña etiqueta a la derecha que indica el estado en texto.
+  */
+  .toc li.ut-completed a{border-color:#c6f6d5;background:linear-gradient(180deg,#f3fff6,#e6f7eb);color:#065f2a}
+  .toc li.ut-completed a .pill{background:transparent;border:none;color:inherit}
+  .toc li.ut-current a{border-color:#ffd8a8;background:linear-gradient(180deg,#fff8f0,#fff1e0);color:#7a4300}
+  .toc li.ut-pending a{opacity:.85;background:linear-gradient(180deg,#fafafa,#f6f6f6);color:var(--muted);border-style:dashed}
+  .ut-state{float:right;font-size:.78rem;padding:.12rem .5rem;border-radius:999px;border:1px solid var(--line);background:transparent}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1 class="title">Lenguajes de Marcas y Sistemas de Gestión de Información (ASIR)</h1>
+   <!-- ===================== ÍNDICE RÁPIDO ===================== -->
+  <h2 id="indice">Unidades de trabajo:</h2>
+  <!-- Indicador visual del estado de cada UT:
+       ut-completed = vista / completada (UT0 y UT1)
+       ut-current   = en curso / actual (UT2)
+       ut-pending   = no vista todavía (UT3..UT7)
+       Las clases se aplican en los <li> para cambiar apariencia mediante CSS.
+  -->
+  <ul class="toc">
+    <li class="ut-completed"><a href="#ut0"><strong>UT0.</strong> Introducción al módulo "Lenguajes de Marcas y Sistemas de Gestión de Información" <span class="ut-state">Completada</span></a></li>
+    <li class="ut-completed"><a href="#ut1"><strong>UT1.</strong> Características de los lenguajes de marcas <span class="pill">RA1</span> <span class="ut-state">Completada</span></a></li>
+    <li class="ut-current"><a href="#ut2"><strong>UT2.</strong> Utilización de lenguajes de marcas en entornos web <span class="pill">RA2</span> <span class="ut-state">Actual</span></a></li>
+    <li class="ut-pending"><a href="#ut3"><strong>UT3.</strong> Aplicación de los lenguajes de marcas a la sindicación de contenidos <span class="pill">RA3</span> <span class="ut-state">No vista</span></a></li>
+    <li class="ut-pending"><a href="#ut4"><strong>UT4.</strong> Definición de esquemas y vocabularios en XML <span class="pill">RA4</span> <span class="ut-state">No vista</span></a></li>
+    <li class="ut-pending"><a href="#ut5"><strong>UT5.</strong> Conversión y adaptación de documentos XML <span class="pill">RA5</span> <span class="ut-state">No vista</span></a></li>
+    <li class="ut-pending"><a href="#ut6"><strong>UT6.</strong> Almacenamiento de información <span class="pill">RA6</span> <span class="ut-state">No vista</span></a></li>
+    <li class="ut-pending"><a href="#ut7"><strong>UT7.</strong> Sistemas de gestión empresarial <span class="pill">RA7</span> <span class="ut-state">No vista</span></a></li>
+  </ul> 
+</header>
+
+<main class="wrap">   
+  <section id="ut0">
+    <p class="badge">Guía del curso · LMSGI UT0</p>
+    <h2>UT0: Introducción al módulo "Lenguajes de Marcas y Sistemas de Gestión de Información"</h2>     
+       <!-- ===================== PONDERACIÓN RA ===================== -->
+  <h3 id="ponderacion">Resultados de aprendizaje</h3>  
+  <table aria-label="Ponderación de RA">
+    <thead>
+      <tr><th>RA</th><th>Descripción (resumen)</th><th>Ponderación</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>RA1</strong></td><td>Reconoce las características de lenguajes de marcas analizando e interpretando fragmentos de código.</td><td><em>10%</em></td></tr>
+      <tr><td><strong>RA2</strong></td><td>Utiliza lenguajes de marcas para la transmisión de información a través de la Web analizando la estructura de los documentos e identificando sus elementos.</td><td><em>30%</em></td></tr>
+      <tr><td><strong>RA3</strong></td><td>Genera canales de contenidos analizando y utilizando tecnologías de sindicación.</td><td><em>5%</em></td></tr>
+      <tr><td><strong>RA4</strong></td><td>Establece mecanismos de validación para documentos XML utilizando métodos para definir su sintaxis y estructura.</td><td><em>15%</em></td></tr>
+      <tr><td><strong>RA5</strong></td><td>Realiza conversiones sobre documentos XML utilizando técnicas y herramientas de procesamiento.</td><td><em>15%</em></td></tr>
+      <tr><td><strong>RA6</strong></td><td>Gestiona información en formato XML analizando y utilizando tecnologías de almacenamiento y lenguajes de consulta.</td><td><em>15%</em></td></tr>
+      <tr><td><strong>RA7</strong></td><td>Trabaja con sistemas empresariales de gestión de información realizando tareas de importación, integración, aseguramiento y extracción de la información.</td><td><em>10%</em></td></tr>
+      <tr><th colspan="2">Total</th><th><em>100%</em></th></tr>
+    </tbody>
+  </table>  
+  </section>
+  <!-- ===================== UT1 / RA1 ===================== -->
+  <section id="ut1">    
+    <p class="badge">Guía del curso · LMSGI UT1</p>
+    <h2>UT1: Características de los lenguajes de marcas</h2>        
+    
+    <div id="ut1-ar">            
+      <h3>1. Accesos rápidos</h3>
+      <p class="links">
+        <a href="https://foggy-date-605.notion.site/UT1-Caracter-sticas-de-los-lenguajes-de-marcas-2734697a2dfa802db392f01c360b92a7" class="tag" target="_blank">Temario UT1</a>
+        <a href="https://aulavirtual.murciaeduca.es/mod/assign/view.php?id=643259" class="tag">Tarea evaluable</a>        
+        <a href="https://www.eniun.com/ejercicios-resueltos-xml/" class="tag" target="_blank">Ejercicios XML (Enium)</a>        
+        <a href="https://www.markdownguide.org/basic-syntax/" class="tag" target="_blank">sintaxis básica de markdown</a>
+      </p>  
+    </div>  
+    <div id="ut1-prof">
+      <h3>2. Orientaciones y consejos del profesor</h3>
+      <p>Para afrontar esta unidad introductoria con éxito, te recomiendo:</p>        
+        <ol>
+          <li>Lectura activa de <a href="https://foggy-date-605.notion.site/UT1-Caracter-sticas-de-los-lenguajes-de-marcas-2734697a2dfa802db392f01c360b92a7" class="tag" target="_blank"><strong>todo</strong> el temario de la unidad 1.</a></li>          
+          <li>Estudio y comprensión en profundidad de los aspectos clave de la unidad:</li>
+          <ul>
+            <li>Concepto y características de los lenguajes de marcas.</li>
+            <li>Clasificación y ámbitos de aplicación.</li>          
+            <li>Estructura y sintaxis de XML.</li>
+            <li>Utilidad de los espacios de nombres.</li>
+            <li>Concepto de documento XML bien formado vs válido.</li>  
+          </ul>
+          <li>Estudio de la <a href="https://www.markdownguide.org/basic-syntax/" class="tag" target="_blank">sintaxis básica de markdown</a></li>
+          <li>Realización de la <a href="https://aulavirtual.murciaeduca.es/mod/assign/view.php?id=643259" target="_blank" class="tag"> tarea evaluable de la unidad</a>        
+          <li>Realización de los <a href="https://www.eniun.com/ejercicios-resueltos-xml/" class="tag" target="_blank">5 primeros ejercicios de enium</a></li>
+        </ol>      
+    </div>
+    <div id="ut1-ra-ce">
+      <h3>3. Resultados de aprendizaje y criterios de evaluación (RA · CE)</h3>
+      <details>
+        <summary>RA1: Reconoce las características de lenguajes de marcas analizando e interpretando fragmentos de código.</summary>           
+        <ol type="a">
+          <li>Se han identificado las características generales de los lenguajes de marcas.</li>
+          <li>Se han reconocido las ventajas que proporcionan en el tratamiento de la información.</li>
+          <li>Se han clasificado los lenguajes de marcas e identificado los más relevantes.</li>
+          <li>Se han diferenciado sus ámbitos de aplicación.</li>
+          <li>Se ha reconocido la necesidad y los ámbitos específicos de aplicación de un lenguaje de marcas de propósito general.</li>
+          <li>Se han analizado las características propias del lenguaje XML.</li>
+          <li>Se ha identificado la estructura de un documento XML y sus reglas sintácticas.</li>
+          <li>Se ha contrastado la necesidad de crear documentos XML bien formados y la influencia en su procesamiento.</li>
+          <li>Se han identificado las ventajas que aportan los espacios de nombres.</li>
+        </ol>   
+      </details>   
+    </div>   
+    <div id="ut1-tem">
+      <h3>4. Temario</h3>
+      <details>
+          <summary><a href="https://foggy-date-605.notion.site/UT1-Caracter-sticas-de-los-lenguajes-de-marcas-2734697a2dfa802db392f01c360b92a7" class="tag" target="_blank"><strong>UT1. </strong> Características de los lenguajes de marcas</a></summary>
+          <ol>
+              <li>Introducción</li>
+              <li>Orígenes de los lenguajes de marcas</li>
+              <li>Concepto de lenguaje de marcas: Etiquetas, elementos y atributos</li>
+              <li>Ámbitos de aplicación de los lenguajes de marcas</li>
+              <li>Organizaciones y estándares de los lenguajes de marcas</li>
+              <li>Clasificación de los lenguajes de marcas</li>
+              <li>XML: estructura y sintaxis básica</li>
+              <li>Documentos XML bien formados y válidos</li>
+              <li>Espacios de nombres en XML</li>
+              <li>Lenguajes de marcado en la actualidad: Markdown, JSON, YAML y otros</li>
+          </ol>
+      </details>
+    </div>   
+    <div id="ut1-eva">
+      <h3>5. Evaluación</h3>
+      <table aria-label="Instrumentos de evaluación">
+        <thead>
+          <tr>
+            <th>Instrumento</th>
+            <th>Tipo</th>
+            <th>Peso (%)</th>
+            <th>CEs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>T1.1 Cronología de los lenguajes de marcas: practicando con Markdown.</td>
+            <td>Tarea</td>
+            <td>10</td>
+            <td>a,b,c,d</td>
+          </tr>
+          <tr>
+            <td>E1.1</td>
+            <td>Examen</td>
+            <td>90</td>
+            <td>todos</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>   
+    <div id="ut1-alto">
+      <h3>6. Para llegar más alto</h3>
+      
+        <p>Recursos adicionales para profundizar en el tema:</p>
+        <ul>
+          <li><a href="https://www.eniun.com/curso-xml/" class="tag" target="_blank">Curso XML (Eniun)</a> (Secciones 1, 2, 3, 4, 6 y 10)</li>
+        </ul>
+    </div>   
+  </section>
+
+  <!-- ===================== UT2 / RA2 ===================== -->
+  <section id="ut2">
+    <p class="badge">Guía del curso · LMSGI UT2</p>
+    <h2>UT2: Utilización de lenguajes de marcas en entornos Web<span class="badge">RA2</span></h2>
+    <div id="ut2-ar">
+      <h3>1. Accesos rápidos</h3>
+      <p class="links">
+        <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63" class="tag" target="_blank">Temario UT2</a>
+        <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63#28e4697a2dfa80b39f3fc8942bc33937" class="tag" target="_blank">Ejercicios de refuerzo básicos</a>
+        <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63#2964697a2dfa80719f83c5d0bbe81647" class="tag" target="_blank">Ejercicios de refuerzo intermedios</a>
+        <a href="https://aulavirtual.murciaeduca.es/mod/assign/view.php?id=739902" class="tag">Tarea evaluable 2.1</a>
+      </p>
+    </div> 
+    <div id="ut2-prof">
+      <h3>2. Orientaciones y consejos del profesor</h3>
+      <p>Para afrontar esta unidad introductoria con éxito, te recomiendo:</p>        
+        <ol>
+          <li>Lectura activa de <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63" class="tag" target="_blank"><strong>todo</strong> el temario de la unidad 2, excepto las secciones etiquetadas como opcionales.</a></li>          
+          <li>Estudio y comprensión en profundidad de los aspectos clave de la unidad:</li>
+          <ul>
+            <li>Estructura y sintaxis en HTML</li>
+            <li>Elementos y etiquetas principales</li>          
+            <li>Listas, tablas y formularios</li>
+            <li>CSS Básico</li>
+            <li>Herramientas de diseño y validación de páginas web.</li>  
+          </ul>      
+          <li>Realización de los <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63#28e4697a2dfa80b39f3fc8942bc33937" class="tag" target="_blank"> ejercicios de refuerzo básicos</a></li>    
+          <li>Realización de los <a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63#2964697a2dfa80719f83c5d0bbe81647" class="tag" target="_blank"> ejercicios de refuerzo intermedios</a></li>
+          <li>Realización de la <a href="https://aulavirtual.murciaeduca.es/mod/assign/view.php?id=643259" target="_blank" class="tag"> tarea evaluable 2.1 (solo html)</a>  
+          <li>Realización de los <a href="#" class="tag" target="_blank"> ejercicios de refuerzo específicos de CSS</a></li> 
+          <li>Realización de la <a href="#" target="_blank" class="tag"> tarea evaluable 2.2 (añadir css a la página anterior)</a>       
+          
+        </ol>      
+    </div>   
+    <div id="ut2-ra-ce">
+      <h3>3. Resultados de aprendizaje y criterios de evaluación (RA · CE)</h3>
+      <details>
+        <summary>RA2: Utiliza lenguajes de marcas para la transmisión de información a través de la Web analizando la estructura de los documentos e identificando sus elementos.</summary>           
+        <ol type="a">
+          <li>Se han identificado y clasificado los lenguajes de marcas relacionados con la Web y sus diferentes versiones.</li>
+          <li>Se ha analizado la estructura de un documento HTML e identificado las secciones que lo componen.</li>
+          <li>Se ha reconocido la funcionalidad de las principales etiquetas y atributos del lenguaje HTML.</li>
+          <li>Se han establecido las semejanzas y diferencias entre los lenguajes HTML y XHTML.</li>
+          <li>Se ha reconocido la utilidad de XHTML en los sistemas de gestión de información.</li>
+          <li>Se han utilizado herramientas en la creación documentos Web.</li>
+          <li>Se han identificado las ventajas que aporta la utilización de hojas de estilo.</li>
+          <li>Se han aplicado hojas de estilo.</li>
+        </ol>   
+      </details>   
+    </div>  
+    <div id="ut1-tem">
+      <h3>4. Temario</h3>
+      <details>
+          <summary><a href="https://foggy-date-605.notion.site/UT2-Utilizaci-n-de-lenguajes-de-marcas-en-entornos-Web-2734697a2dfa80e3b8e2d36e6d1c7a63" class="tag" target="_blank"><strong>UT2. </strong>Utilización de lenguajes de marcas en entornos Web</a></summary>
+          <ol>
+            <li>Introducción</li>
+            <li>Estructura de un documento HTML</li>
+            <li>Elementos y etiquetas principales de HTML</li>
+            <li>Elementos obsoletos y en desuso</li>
+            <li>HTML vs XHTML: diferencias, ventajas y estado actual</li>
+            <li>Hojas de estilo en cascada (CSS)</li>
+            <li>Herramientas de diseño web</li>
+            <li>Validación de páginas web</li>
+            <li>Páginas web dinámicas y lenguajes de marcas en el lado del servidor (Opcional)</li>
+         </ol>
+      </details>
+    </div>    
+  </section>
+
+  <!-- ===================== UT3 / RA3 ===================== -->
+  <!-- <section id="ut3">
+    <h2>UT3 · Sindicación de contenidos (RSS/Atom) <span class="badge">RA3</span></h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Enlaces rápidos</h3>
+        <p class="links">
+          <a href="#" class="tag">Temario UT3</a>
+          <a href="#" class="tag">Prácticas / Entrenamiento</a>
+          <a href="#" class="tag">Tarea evaluable</a>
+          <a href="#" class="tag">Validador RSS/Atom</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Qué vas a aprender (clave)</h3>
+        <ul>
+          <li>Ventajas y ámbitos de aplicación de la sindicación.</li>
+          <li>Estructura y sintaxis de canales (RSS/Atom) y OPML.</li>
+          <li>Creación, validación y consumo con agregadores.</li>
+          <li>Directorios de canales e integración en navegadores.</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Resultados y Criterios (RA3 · CE)</summary>
+      <ul>
+        <li>Identifica ventajas y tecnologías de sindicación.</li>
+        <li>Define estructura/sintaxis de un canal y lo valida.</li>
+        <li>Utiliza herramientas (agregadores, directorios) y comprueba acceso.</li>
+      </ul>
+      <p class="muted small">Contenidos: formatos y versiones, validación, OPML, agregación…</p>
+    </details>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Contenido evaluable</h3>
+        <ul>
+          <li>Feed propio (RSS o Atom) validado y operativo.</li>
+          <li>Informe corto sobre uso en un agregador.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Para llegar más alto</h3>
+        <ul>
+          <li>Explora namespaces en RSS/Atom (media, content, dc).</li>
+          <li>Publica un OPML de tus fuentes.</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li>☐ Creo y valido un canal RSS/Atom.</li>
+      <li>☐ Lo consumo desde al menos un agregador.</li>
+    </ul>
+    <a class="backtop" href="#indice">↑ Volver al índice</a>
+  </section>
+
+  <hr>
+ -->
+  <!-- ===================== UT4 / RA4 ===================== -->
+  <!-- <section id="ut4">
+    <h2>UT4 · Validación de XML (DTD/XSD) <span class="badge">RA4</span></h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Enlaces rápidos</h3>
+        <p class="links">
+          <a href="#" class="tag">Temario UT4</a>
+          <a href="#" class="tag">Prácticas / Entrenamiento</a>
+          <a href="#" class="tag">Tarea evaluable</a>
+          <a href="#" class="tag">Validador DTD/XSD</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Qué vas a aprender (clave)</h3>
+        <ul>
+          <li>Necesidad de describir información y reglas.</li>
+          <li>Tecnologías de definición (DTD/XSD): estructura y sintaxis.</li>
+          <li>Creación de descripciones y asociación a documentos.</li>
+          <li>Herramientas de validación y documentación.</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Resultados y Criterios (RA4 · CE)</summary>
+      <ul>
+        <li>Identifica y aplica métodos de definición (DTD/XSD).</li>
+        <li>Crea y asocia descripciones a documentos XML.</li>
+        <li>Valida con herramientas y documenta especificaciones.</li>
+      </ul>
+      <p class="muted small">Contenidos: declaración de DTD, atributos/entidades, páginas/programas de validación.</p>
+    </details>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Contenido evaluable</h3>
+        <ul>
+          <li>DTD y/o XSD funcional + validaciones capturadas.</li>
+          <li>Breve memoria de decisiones de modelado.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Para llegar más alto</h3>
+        <ul>
+          <li>Modela tipos complejos, restricciones y nombres de espacio en XSD.</li>
+          <li>Genera clases desde XSD (solo exploratorio).</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li>☐ Valido documentos contra una DTD/XSD propia.</li>
+      <li>☐ Justifico mis decisiones de modelado.</li>
+    </ul>
+    <a class="backtop" href="#indice">↑ Volver al índice</a>
+  </section>
+
+  <hr> -->
+
+  <!-- ===================== UT5 / RA5 ===================== -->
+ <!--  <section id="ut5">
+    <h2>UT5 · Transformaciones (XSLT/XPath) <span class="badge">RA5</span></h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Enlaces rápidos</h3>
+        <p class="links">
+          <a href="#" class="tag">Temario UT5</a>
+          <a href="#" class="tag">Prácticas / Entrenamiento</a>
+          <a href="#" class="tag">Tarea evaluable</a>
+          <a href="#" class="tag">Herramientas XSLT</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Qué vas a aprender (clave)</h3>
+        <ul>
+          <li>Necesidad y ámbitos de conversión de XML.</li>
+          <li>XSLT y XPath: sintaxis, plantillas, selección y salida.</li>
+          <li>Transformaciones a HTML, XML, texto, PDF (vía herramienta).</li>
+          <li>Verificación y depuración de especificaciones.</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Resultados y Criterios (RA5 · CE)</summary>
+      <ul>
+        <li>Analiza tecnologías de conversión y crea especificaciones XSLT.</li>
+        <li>Realiza transformaciones con distintos formatos de salida.</li>
+        <li>Documenta y depura las especificaciones.</li>
+      </ul>
+      <p class="muted small">Contenidos: plantillas, herramientas de procesamiento, verificación y depuración.</p>
+    </details>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Contenido evaluable</h3>
+        <ul>
+          <li>Conjunto de hojas XSLT con ejemplos de entrada/salida.</li>
+          <li>Informe de pruebas y casos límite.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Para llegar más alto</h3>
+        <ul>
+          <li>Uso de claves, modos y funciones avanzadas.</li>
+          <li>Separación de plantillas y reutilización.</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li>☐ Escribo selectores XPath correctos.</li>
+      <li>☐ Genero salidas válidas (HTML/XML/texto).</li>
+      <li>☐ Depuro con ejemplos representativos.</li>
+    </ul>
+    <a class="backtop" href="#indice">↑ Volver al índice</a>
+  </section>
+
+  <hr> -->
+
+  <!-- ===================== UT6 / RA6 ===================== -->
+ <!--  <section id="ut6">
+    <h2>UT6 · Almacenamiento &amp; Consulta XML <span class="badge">RA6</span></h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Enlaces rápidos</h3>
+        <p class="links">
+          <a href="#" class="tag">Temario UT6</a>
+          <a href="#" class="tag">Prácticas / Entrenamiento</a>
+          <a href="#" class="tag">Tarea evaluable</a>
+          <a href="#" class="tag">Herramientas (nativas/relacionales)</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Qué vas a aprender (clave)</h3>
+        <ul>
+          <li>Métodos de almacenamiento y sus inconvenientes en XML.</li>
+          <li>Gestores relacionales vs nativos XML; extracción e inserción.</li>
+          <li>Búsqueda, consulta y manipulación (lenguajes y herramientas).</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Resultados y Criterios (RA6 · CE)</summary>
+      <ul>
+        <li>Selecciona tecnologías eficientes según características.</li>
+        <li>Genera XML desde BD relacionales y gestiona BD nativas XML.</li>
+        <li>Aplica técnicas de consulta/manipulación y herramientas asociadas.</li>
+      </ul>
+      <p class="muted small">Contenidos: inserción/extracción, técnicas de búsqueda, almacenamiento nativo y herramientas.</p>
+    </details>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Contenido evaluable</h3>
+        <ul>
+          <li>Ejercicios de consulta/manipulación sobre dataset XML.</li>
+          <li>Informe comparativo (nativo vs relacional) con caso simple.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Para llegar más alto</h3>
+        <ul>
+          <li>Evalúa rendimiento y trade-offs en distintos volúmenes.</li>
+          <li>Automatiza pipelines simples de importación/exportación.</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li>☐ Elijo la tecnología adecuada al problema.</li>
+      <li>☐ Realizo consultas útiles y documentadas.</li>
+    </ul>
+    <a class="backtop" href="#indice">↑ Volver al índice</a>
+  </section>
+
+  <hr> -->
+
+  <!-- ===================== UT7 / RA7 ===================== -->
+  <!-- <section id="ut7">
+    <h2>UT7 · Sistemas de gestión empresarial (ERP) <span class="badge">RA7</span></h2>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Enlaces rápidos</h3>
+        <p class="links">
+          <a href="#" class="tag">Temario UT7</a>
+          <a href="#" class="tag">Prácticas / Entrenamiento</a>
+          <a href="#" class="tag">Tarea evaluable</a>
+          <a href="#" class="tag">Guías e instalación</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Qué vas a aprender (clave)</h3>
+        <ul>
+          <li>Ventajas, instalación, adaptación y configuración de un ERP.</li>
+          <li>Integración de módulos e información e informes.</li>
+          <li>Acceso seguro, exportación de datos y asistencia básica.</li>
+        </ul>
+      </div>
+    </div>
+
+    <details>
+      <summary>Resultados y Criterios (RA7 · CE)</summary>
+      <ul>
+        <li>Reconoce ventajas e instala/configura una aplicación de gestión.</li>
+        <li>Integra módulos e implementa seguridad y generación de informes.</li>
+        <li>Integra con ofimática, exporta información y elabora documentación.</li>
+      </ul>
+      <p class="muted small">Contenidos: flujos de información, escalabilidad, seguridad, integración y explotación.</p>
+    </details>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Contenido evaluable</h3>
+        <ul>
+          <li>Instalación guiada + informe de configuración.</li>
+          <li>Generación de un informe y exportación a formato abierto.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Para llegar más alto</h3>
+        <ul>
+          <li>Prueba de roles/permiso y un flujo simple de integración.</li>
+          <li>Checklist de seguridad básica aplicada.</li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li>☐ Instalo y configuro un ERP básico.</li>
+      <li>☐ Genero informes y gestiono exportaciones.</li>
+      <li>☐ Documento pasos y verifico seguridad básica.</li>
+    </ul>
+    <a class="backtop" href="#indice">↑ Volver al índice</a>
+  </section>
+
+  <hr> -->
+
+  <!-- ===================== NOTAS FINALES ===================== -->
+  <section>
+    <h2>Notas finales para el alumnado</h2>
+    <!-- <div class="callout-ok">
+      <strong>Consejo:</strong> en cada UT, prioriza primero lo <em>evaluado</em>, después practica 30–60′ con ejercicios cortos y
+      por último repasa la sección “Para llegar más alto”.
+    </div> -->
+    <p class="muted small">Esta página se actualiza a lo largo del curso. Revisa fechas y enlaces en cada UT.</p>
+  </section>
+
+  <footer class="small">
+    <p>© Jesús Turpín Aroca · Módulo LMSGI — Guía general del curso</p>
+    <p>Última actualización: 2025-10-29</p>
+  </footer>
+</main>
+</body>
+</html>
